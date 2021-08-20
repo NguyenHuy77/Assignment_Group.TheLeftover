@@ -10,17 +10,19 @@ function SearchTable({ data }) {
         <thead>
           <tr>
             {columns &&
-              columns.map((column) => (
-                <th scope="col">{column.toUpperCase()}</th>
+              columns.map((column, i) => (
+                <th key={i} scope="col">
+                  {column.toUpperCase()}
+                </th>
               ))}
           </tr>
         </thead>
         <tbody>
           {data &&
-            data.map((item) => (
-              <tr key={item.id}>
-                {columns.map((column) => (
-                  <td>{item[column]}</td>
+            data.map((item, i) => (
+              <tr key={i}>
+                {columns.map((column, j) => (
+                  <td key={j}>{item[column]}</td>
                 ))}
               </tr>
             ))}
