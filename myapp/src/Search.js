@@ -5,10 +5,10 @@ import SearchTable from "./components/SearchTable";
 function Search() {
   const [data, setData] = useState([]);
   const [results, setResults] = useState([]);
-  const [filterList, setFilterList] = useState([]);
+  const [filterListRoom, setFilterListRoom] = useState([]);
+  const [filterListName, setFilterListName] = useState([]);
   const [query, setQuery] = useState("");
   const columnsToSearch = ["id", "lname", "fname", "age"];
-  const columnsToFilter = ["fname", "room"];
   const endPoint = "./data/db.json";
 
   // fetch data
@@ -43,15 +43,22 @@ function Search() {
 
   // filter
   const getFilter = (source) => {
-    if (filterList.length === 0) return source;
+    if (filterListName.length === 0 && filterListRoom.length === 0)
+      return source;
 
-    return source.filter((row) => {
-      return filterList.some((filterVal) => {
-        return columnsToFilter.some((column) =>
-          row[column].toString().includes(filterVal)
+    return source
+      .filter((row) => {
+        if (filterListName.length === 0) return row;
+        return filterListName.some((filterVal) =>
+          row["fname"].toString().includes(filterVal)
+        );
+      })
+      .filter((row) => {
+        if (filterListRoom.length === 0) return row;
+        return filterListRoom.some((filterVal) =>
+          row["room"].toString().includes(filterVal)
         );
       });
-    });
   };
 
   const filterOnChange = () => {
@@ -59,7 +66,8 @@ function Search() {
   };
 
   const filterOnDelete = (item) => {
-    setFilterList(filterList.filter((i) => i !== item));
+    setFilterListName(filterListName.filter((i) => i !== item));
+    setFilterListRoom(filterListRoom.filter((i) => i !== item));
   };
 
   // useEffect
@@ -69,7 +77,7 @@ function Search() {
 
   useEffect(() => {
     filterOnChange();
-  }, [filterList]);
+  }, [filterListName, filterListRoom]);
 
   return (
     <div className="container-xl mt-4">
@@ -81,8 +89,8 @@ function Search() {
         <select
           className="form-select filter"
           onChange={(e) => {
-            if (!filterList.includes(e.target.value))
-              filterList.push(e.target.value);
+            if (!filterListName.includes(e.target.value))
+              filterListName.push(e.target.value);
             filterOnChange();
           }}
           value=""
@@ -91,7 +99,7 @@ function Search() {
           {results &&
             results
               .reduce((total, cur) => {
-                if (!total.includes(cur.fname)) total.push(cur.fname);
+                if (!total.includes(cur["fname"])) total.push(cur["fname"]);
                 return total;
               }, [])
               .map((item, i) => {
@@ -106,8 +114,8 @@ function Search() {
         <select
           className="form-select filter"
           onChange={(e) => {
-            if (!filterList.includes(e.target.value))
-              filterList.push(e.target.value);
+            if (!filterListRoom.includes(e.target.value))
+              filterListRoom.push(e.target.value);
             filterOnChange();
           }}
           value=""
@@ -116,7 +124,7 @@ function Search() {
           {results &&
             results
               .reduce((total, cur) => {
-                if (!total.includes(cur.room)) total.push(cur.room);
+                if (!total.includes(cur["room"])) total.push(cur["room"]);
                 return total;
               }, [])
               .map((item, i) => {
@@ -130,8 +138,21 @@ function Search() {
       </form>
 
       {/* ---- filter items ---- */}
-      {filterList &&
-        filterList.map((filterVal, i) => {
+      {filterListName &&
+        filterListName.map((filterVal, i) => {
+          return (
+            <button
+              key={i}
+              className="btn btn-primary me-1"
+              onClick={() => filterOnDelete(filterVal)}
+            >
+              <span>{filterVal}</span>
+              <i className="bi bi-x ms-1"></i>
+            </button>
+          );
+        })}
+      {filterListRoom &&
+        filterListRoom.map((filterVal, i) => {
           return (
             <button
               key={i}
