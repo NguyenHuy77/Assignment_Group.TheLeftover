@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import SearchBar from "./components/SearchBar";
+import SearchFilter from "./components/SearchFilter";
 import SearchTable from "./components/SearchTable";
 
 function Search() {
   const [data, setData] = useState([]);
   const [results, setResults] = useState([]);
-  const [filterListRoom, setFilterListRoom] = useState([]);
-  const [filterListName, setFilterListName] = useState([]);
+  const [filterList, setFilterList] = useState({});
   const [query, setQuery] = useState("");
   const columnsToSearch = ["id", "lname", "fname", "age"];
+  const columnsToFilter = ["fname", "room"];
   const endPoint = "./data/db.json";
 
   // fetch data
@@ -23,7 +24,7 @@ function Search() {
 
   // search
   const getSearch = (source, query) => {
-    if (query.trim() === "") return source;
+    if (!query.trim()) return source;
 
     const queries = query.split(/ +/g).map((query) => query.toLowerCase());
 
@@ -38,134 +39,62 @@ function Search() {
 
   const searchOnSubmit = (query) => {
     setQuery(query);
-    setResults(getSearch(getFilter(data), query));
+    setResults(getSearch(getFilter(data, filterList), query));
   };
 
   // filter
-  const getFilter = (source) => {
-    if (filterListName.length === 0 && filterListRoom.length === 0)
+  const getFilter = (source, filters) => {
+    if (Object.keys(filters).every((key) => filters[key].length === 0))
       return source;
 
-    return source
-      .filter((row) => {
-        if (filterListName.length === 0) return row;
-        return filterListName.some((filterVal) =>
-          row["fname"].toString().includes(filterVal)
-        );
-      })
-      .filter((row) => {
-        if (filterListRoom.length === 0) return row;
-        return filterListRoom.some((filterVal) =>
-          row["room"].toString().includes(filterVal)
+    return Object.keys(filters).reduce((total, key) => {
+      return total.filter((row) => {
+        if (filters[key].length === 0) return row;
+        return filters[key].some((filterVal) =>
+          row[key].toString().includes(filterVal)
         );
       });
+    }, source);
   };
 
   const filterOnChange = () => {
-    setResults(getFilter(getSearch(data, query)));
+    setResults(getFilter(getSearch(data, query), filterList));
   };
 
-  const filterOnDelete = (item) => {
-    setFilterListName(filterListName.filter((i) => i !== item));
-    setFilterListRoom(filterListRoom.filter((i) => i !== item));
+  const filterOnDelete = (filters, item) => {
+    setFilterList(
+      Object.keys(filters).reduce((total, key) => {
+        total[key] = total[key].filter((i) => i !== item);
+        return total;
+      }, filters)
+    );
+    filterOnChange();
   };
 
   // useEffect
   useEffect(() => {
     getData();
-  }, []);
 
-  useEffect(() => {
-    filterOnChange();
-  }, [filterListName, filterListRoom]);
+    setFilterList(
+      columnsToFilter.reduce((total, key) => {
+        total[key] = [];
+        return total;
+      }, {})
+    );
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <div className="container-xl mt-4">
       <SearchBar onSubmit={searchOnSubmit} />
 
-      {/* ---- filter form ---- */}
-      <form className="d-flex mt-3 mb-1">
-        {/* filter name */}
-        <select
-          className="form-select filter"
-          onChange={(e) => {
-            if (!filterListName.includes(e.target.value))
-              filterListName.push(e.target.value);
-            filterOnChange();
-          }}
-          value=""
-        >
-          <option>Choose Name</option>
-          {results &&
-            results
-              .reduce((total, cur) => {
-                if (!total.includes(cur["fname"])) total.push(cur["fname"]);
-                return total;
-              }, [])
-              .map((item, i) => {
-                return (
-                  <option key={i} value={item}>
-                    {item}
-                  </option>
-                );
-              })}
-        </select>
-        {/* filter room */}
-        <select
-          className="form-select filter"
-          onChange={(e) => {
-            if (!filterListRoom.includes(e.target.value))
-              filterListRoom.push(e.target.value);
-            filterOnChange();
-          }}
-          value=""
-        >
-          <option>Choose Room</option>
-          {results &&
-            results
-              .reduce((total, cur) => {
-                if (!total.includes(cur["room"])) total.push(cur["room"]);
-                return total;
-              }, [])
-              .map((item, i) => {
-                return (
-                  <option key={i} value={item}>
-                    {item}
-                  </option>
-                );
-              })}
-        </select>
-      </form>
+      <SearchFilter
+        data={results}
+        filters={filterList}
+        onSelect={filterOnChange}
+        onDelete={filterOnDelete}
+      />
 
-      {/* ---- filter items ---- */}
-      {filterListName &&
-        filterListName.map((filterVal, i) => {
-          return (
-            <button
-              key={i}
-              className="btn btn-primary me-1"
-              onClick={() => filterOnDelete(filterVal)}
-            >
-              <span>{filterVal}</span>
-              <i className="bi bi-x ms-1"></i>
-            </button>
-          );
-        })}
-      {filterListRoom &&
-        filterListRoom.map((filterVal, i) => {
-          return (
-            <button
-              key={i}
-              className="btn btn-primary me-1"
-              onClick={() => filterOnDelete(filterVal)}
-            >
-              <span>{filterVal}</span>
-              <i className="bi bi-x ms-1"></i>
-            </button>
-          );
-        })}
-
-      {/* ---- table ---- */}
       <SearchTable data={results} />
     </div>
   );
