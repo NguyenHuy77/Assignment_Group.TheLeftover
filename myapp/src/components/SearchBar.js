@@ -15,7 +15,7 @@ function SearchBar({ onSubmit }) {
           className="form-control me-2"
           type="search"
           value={query}
-          placeholder="Search by ID, name, room..."
+          placeholder="Type to search"
           onChange={(e) => setQuery(e.target.value)}
         />
         <button className="btn btn-outline-success" type="submit">

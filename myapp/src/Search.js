@@ -9,7 +9,7 @@ function Search() {
   const [filterList, setFilterList] = useState({});
   const [query, setQuery] = useState("");
   const columnsToSearch = ["id", "lname", "fname", "age"];
-  const columnsToFilter = ["fname", "room"];
+  const columnsToFilter = ["lname", "fname", "room"];
   const endPoint = "./data/db.json";
 
   // fetch data
@@ -48,8 +48,8 @@ function Search() {
       return source;
 
     return Object.keys(filters).reduce((total, key) => {
+      if (filters[key].length === 0) return total;
       return total.filter((row) => {
-        if (filters[key].length === 0) return row;
         return filters[key].some((filterVal) =>
           row[key].toString().includes(filterVal)
         );
