@@ -15,67 +15,6 @@ const required = (value) => {
   }
 };
 
-const id = (value) => {
-  if (!value.match(/^(?=.*[a-z])[a-z0-9]{8,20}$/i)) {
-    //ID can't be all numeric, can't have special characters, at least 8 characters, at most 20 characters, can be all alphabetic and alphanumeric
-    return (
-      <div className="alert alert-danger" role="alert">
-        The ID is not correct.
-      </div>
-    );
-  }
-};
-
-const name = (value) => {
-  if (
-    !value.match(
-      /^(([A-Za-z]+[-']?)*([A-Za-z]+)?\s)+([A-Za-z]+[-']?)*([A-Za-z]+)?$/
-    )
-  ) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        The name is invalid.
-      </div>
-    );
-  }
-};
-
-const nationalID = (value) => {
-  if (!value.match(/^([0-9]{9})|^([0-9]{12})/)) {
-    // accepts both the old 9 digits and new 12 digits Vietnamese national ID
-    return (
-      <div className="alert alert-danger" role="alert">
-        The National ID is invalid.
-      </div>
-    );
-  }
-};
-
-const phoneNumber = (value) => {
-  if (!value.match(/(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/)) {
-    //regex for Vietnamese phone number
-    return (
-      <div className="alert alert-danger" role="alert">
-        The Phone Number is invalid.
-      </div>
-    );
-  }
-};
-
-const workPlace = (value) => {
-  if (
-    !value.match(
-      /^(([A-Za-z]+[-']?)*([A-Za-z]+)?\s)+([A-Za-z]+[-']?)*([A-Za-z]+)?$/
-    )
-  ) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        The Workplace's name is invalid.
-      </div>
-    );
-  }
-};
-
 const email = (value) => {
   if (!isEmail(value)) {
     return (
@@ -120,21 +59,11 @@ export default class Register extends Component {
   constructor(props) {
     super(props);
     this.handleRegister = this.handleRegister.bind(this);
-    this.onChangeID = this.onChangeID.bind(this);
-    this.onChangeName = this.onChangeName.bind(this);
-    this.onChangeNationalid = this.onChangeNationalid.bind(this);
-    this.onChangePhonenumber = this.onChangePhonenumber.bind(this);
-    this.onChangeWorkplace = this.onChangeWorkplace.bind(this);
     this.onChangeUsername = this.onChangeUsername.bind(this);
     this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangePassword = this.onChangePassword.bind(this);
     this.onChangeRole = this.onChangeRole.bind(this);
     this.state = {
-      id: "",
-      name: "",
-      nationalID: "",
-      phoneNumber: "",
-      workPlace: "",
       username: "",
       email: "",
       password: "",
@@ -142,36 +71,6 @@ export default class Register extends Component {
       successful: false,
       message: "",
     };
-  }
-
-  onChangeID(e) {
-    this.setState({
-      id: e.target.value,
-    });
-  }
-
-  onChangeName(e) {
-    this.setState({
-      name: e.target.value,
-    });
-  }
-
-  onChangeNationalid(e) {
-    this.setState({
-      nationalID: e.target.value,
-    });
-  }
-
-  onChangePhonenumber(e) {
-    this.setState({
-      phoneNumber: e.target.value,
-    });
-  }
-
-  onChangeWorkplace(e) {
-    this.setState({
-      workPlace: e.target.value,
-    });
   }
 
   onChangeRole(e) {
@@ -210,11 +109,6 @@ export default class Register extends Component {
 
     if (this.checkBtn.context._errors.length === 0) {
       AuthService.register(
-        this.state.id,
-        this.state.name,
-        this.state.nationalID,
-        this.state.phoneNumber,
-        this.state.workPlace,
         this.state.role,
         this.state.username,
         this.state.email,
@@ -261,66 +155,6 @@ export default class Register extends Component {
           >
             {!this.state.successful && (
               <div>
-                <div className="form-group">
-                  <label htmlFor="id">ID</label>
-                  <Input
-                    type="text"
-                    className="form-control"
-                    name="id"
-                    value={this.state.id}
-                    onChange={this.onChangeID}
-                    validations={[required, id]}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="name">Name</label>
-                  <Input
-                    type="text"
-                    className="form-control"
-                    name="name"
-                    value={this.state.name}
-                    onChange={this.onChangeName}
-                    validations={[required, name]}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="nationalid">National ID</label>
-                  <Input
-                    type="text"
-                    className="form-control"
-                    name="nationalid"
-                    value={this.state.nationalID}
-                    onChange={this.onChangeNationalid}
-                    validations={[required, nationalID]}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="phonenumber">Phone Number</label>
-                  <Input
-                    type="text"
-                    className="form-control"
-                    name="phonenumber"
-                    value={this.state.phoneNumber}
-                    onChange={this.onChangePhonenumber}
-                    validations={[required, phoneNumber]}
-                  />
-                </div>
-
-                <div className="form-group">
-                  <label htmlFor="workplace">Main place of work</label>
-                  <Input
-                    type="text"
-                    className="form-control"
-                    name="workplace"
-                    value={this.state.workPlace}
-                    onChange={this.onChangeWorkplace}
-                    validations={[required, workPlace]}
-                  />
-                </div>
-
                 <div className="form-group">
                   <label htmlFor="role">Role</label>
                   <Input
