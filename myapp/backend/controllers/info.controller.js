@@ -1,6 +1,23 @@
 const db = require("../models");
 const Information = db.information;
 
+//Get Information
+exports.get = (req, res) => {
+  const id = req.params.id;
+
+  Information.findbyId(id)
+    .then((data) => {
+      if (!data)
+        res.status(404).send({ message: "Not found Tutorial with id " + id });
+      else res.send(data);
+    })
+    .catch((err) => {
+      res
+        .status(500)
+        .send({ message: "Error retrieving Tutorial with id=" + id });
+    });
+};
+
 // Update Information
 exports.update = (req, res) => {
   if (!req.body) {
