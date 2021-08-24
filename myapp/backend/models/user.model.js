@@ -8,10 +8,10 @@ const User = mongoose.model(
     nationalId: String,
     phoneNumber: String,
     workPlace: String,
-    role: String,
     username: String,
     email: String,
     password: String,
+    role: String,
     roles: [
       {
         type: mongoose.Schema.Types.ObjectId,

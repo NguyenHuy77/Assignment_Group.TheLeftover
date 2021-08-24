@@ -8,10 +8,10 @@ module.exports = (mongoose) => {
         nationalId: String,
         phoneNumber: String,
         workPlace: String,
-        role: String,
         username: String,
         email: String,
         password: String,
+        role: String,
       },
       { timestamps: true }
     )
