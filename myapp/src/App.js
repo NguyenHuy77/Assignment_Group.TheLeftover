@@ -13,6 +13,8 @@ import Profile from "./components/profile";
 import AuthVerify from "./authorize-verify";
 import EventBus from "./event-bus";
 
+import RoomList from "./room/roomList"
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -80,6 +82,13 @@ class App extends Component {
                   {currentUser.username}
                 </Link>
               </li>
+              {currentUser.username==="admin" && (
+                <li className="nav-item">
+                <Link to={"/room"} className="nav-link">
+                  Room
+                </Link>
+              </li>
+              )}
               <li className="nav-item">
                 <a href="/login" className="nav-link" onClick={this.logOut}>
                   LogOut
@@ -109,6 +118,7 @@ class App extends Component {
             <Route exact path="/login" component={Login} />
             <Route exact path="/register" component={Register} />
             <Route exact path="/profile" component={Profile} />
+            <Route exact path="/room" component={RoomList}/>
           </Switch>
         </div>
 

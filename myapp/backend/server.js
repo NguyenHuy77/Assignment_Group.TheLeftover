@@ -11,16 +11,16 @@ var corsOptions = {
 app.use(cors(corsOptions));
 
 // parse requests of content-type - application/json
-app.use(bodyParser.json());
+app.use(express.json());
 
 // parse requests of content-type - application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 
 const db = require("./models");
 const Role = db.role;
 
 const path =
-  "mongodb+srv://timmyha619:bapcai2312@ducdb.kjkro.mongodb.net/CovidDatabase?retryWrites=true&w=majority";
+  "mongodb+srv://khoanguyenkne:Kn03122000@cluster0.wixqi.mongodb.net/api_covid?retryWrites=true&w=majority";
 db.mongoose
   .connect(path, {
     useNewUrlParser: true,
@@ -41,10 +41,18 @@ app.get("/", (req, res) => {
   res.json({ message: "Welcome to Covid management application." });
 });
 
-// routes
+// routes for auth, user and users' info
 require("./routes/auth.routes")(app);
 require("./routes/user.routes")(app);
 require("./routes/info.routes")(app);
+
+// routes for managing rooms and patients
+const roomRoute = require('./room/roomRoute');
+const patientRoute = require('./patient/patientRoute');
+
+app.use('/rooms',roomRoute);
+app.use('/patients',patientRoute)
+
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
