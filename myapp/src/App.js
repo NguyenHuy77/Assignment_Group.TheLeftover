@@ -14,6 +14,8 @@ import AuthVerify from "./authorize-verify";
 import EventBus from "./event-bus";
 
 import RoomList from "./room/roomList"
+import PatientList from "./patient/patientList"
+import RoomDetail from "./room/roomDetail";
 
 class App extends Component {
   constructor(props) {
@@ -90,6 +92,11 @@ class App extends Component {
               </li>
               )}
               <li className="nav-item">
+                <Link to={"/patient"} className="nav-link">
+                  Patient
+                </Link>
+              </li>
+              <li className="nav-item">
                 <a href="/login" className="nav-link" onClick={this.logOut}>
                   LogOut
                 </a>
@@ -119,6 +126,13 @@ class App extends Component {
             <Route exact path="/register" component={Register} />
             <Route exact path="/profile" component={Profile} />
             <Route exact path="/room" component={RoomList}/>
+            <Route exact path="/patient" component={PatientList}/>
+            <Route path={`/room/:id`} render={(props) =>
+                <RoomDetail {...props} />
+            } />
+            <Route path={`/patient/:id`} render={(props) =>
+                <RoomDetail {...props} />
+            } />
           </Switch>
         </div>
 

@@ -10,8 +10,11 @@ const roomSchema= mongoose.Schema({
         require: true
     },
     bedCounts: {
-        type: String,
+        type: Number,
         require: true
+    },
+    available:{
+        type : Number
     }
 
 });

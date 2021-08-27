@@ -1,63 +1,198 @@
 import React, { Component } from "react";
-import { Switch, Route, Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
+import  TableHead   from "@material-ui/core/TableHead";
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
+import Form from "react-validation/build/form";
+import Input from "react-validation/build/input";
+import CheckButton from "react-validation/build/button";
+import { set } from "lodash";
 
 const url="http://localhost:8080/rooms"
-export default class roomList extends React.Component{
 
 
-    constructor (props){
-        super()
-        this.state={
-            rooms :[]
-        }
-    }
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
 
-    
-    fetchRoom(){
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+}))(TableRow);
+const useStyles = makeStyles((theme) => ({
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  paper: {
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+  },
+}));
+export default function RoomList () {
+
+  const [rooms,setRooms]= useState([])  
+  const [id,setId] = useState("")
+  const [roomNumber,setRoomNumber] = useState("")
+  const [roomType,setRoomType] = useState("")
+  const [bedCounts,setBedCounts] = useState(0)
+  const [available,setAvailable] = useState(0)
+
+  const fetchRoom = () =>{
         fetch(url).then(res => res.json())
-        .then(json => this.setState({ rooms: json }))
+        .then(json => setRooms(json))
     }
 
-    componentDidMount(){
-        this.fetchRoom()
+    useEffect (()=>{fetchRoom()},[])
+  const handleEdit = (id,rNumber,rType,bCounts,avai) =>{
+     setId(id)
+     setRoomNumber(rNumber)
+     setRoomType(rType)
+     setBedCounts(bCounts)
+     setAvailable(avai)
     }
-    render(){
-        return( 
-            <TableContainer component={Paper}>
-            <Table  aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>Room Number</TableCell>
-                  <TableCell align="right">Room Type</TableCell>
-                  <TableCell align="right">Bed Counts</TableCell>
-                  <TableCell align="right">View</TableCell>
-                  <TableCell align="right">Delete</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {this.state.rooms.map((row) => (
-                  <TableRow key={row.roomNumber}>
-                    <TableCell component="th" scope="row">
-                      {row.roomNumber}
-                    </TableCell>
-                    <TableCell align="right">{row.roomType}</TableCell>
-                    <TableCell align="right">{row.bedCounts}</TableCell>
-                    <TableCell align="right">View</TableCell>
-                    <TableCell align="right">Delete</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        )
+
+
+
+  const handleDelete = (id) =>{
+      fetch(url+"/"+id, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id: id})
+    }).then(data => fetchRoom())
+ 
     }
-}
+
+  const save = () => {
+      if (id===''){
+         fetch(url, {
+             method: 'POST',
+             headers: {
+             'Content-Type': 'application/json'
+             },
+             body: JSON.stringify({roomNumber:roomNumber,roomType:roomType,bedCounts:bedCounts,available:available})
+         }).then(data => fetchRoom())
+     }
+     else{
+         fetch(url+"/"+id, {
+             method: 'PATCH',
+             headers: {
+             'Content-Type': 'application/json'
+             },
+             body: JSON.stringify({roomNumber:roomNumber,roomType:roomType,bedCounts:bedCounts,available:available})
+         }).then(data => fetchRoom())
+     }
+   
+     }
+
+  return( 
+    <div>
+     <div className="col-md-12">
+        <div className="card card-container">
+        <Form onSubmit={ ()=> save()}>
+                    <div>
+                      <label htmlFor="roomNumber">Room Number</label>
+                      <Input
+                        type="text"
+                        className="form-control"
+                        name="roomNumber"
+                        value={roomNumber}
+                        onChange={(e)=>setRoomNumber(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="roomType">Room Type</label>
+                      <Input
+                        type="text"
+                        className="form-control"
+                        name="roomType"
+                        value={roomType}
+                        onChange={(e)=>setRoomType(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="bedCounts">Bed Counts</label>
+                      <Input
+                        type="text"
+                        className="form-control"
+                        name="bedCounts"
+                        value={bedCounts}
+                        onChange={(e)=>setBedCounts(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="roomNumber">Available</label>
+                      <Input
+                        type="text"
+                        className="form-control"
+                        name="available"
+                        value={available}
+                        onChange={(e)=>setAvailable(e.target.value)}
+                      />
+                    </div>
+                    <Button size="small" color="primary" onClick={()=> save()}> Edit</Button>
+    </Form>
+        </div>
+      </div>
+    
+    <TableContainer component={Paper}>
+    <Table  aria-label="customized table">
+      <TableHead>
+        <TableRow>
+          <StyledTableCell>Room Number</StyledTableCell>
+          <StyledTableCell align="right">Room Type</StyledTableCell>
+          <StyledTableCell align="right">Bed Count</StyledTableCell>
+          <StyledTableCell align="right">Available</StyledTableCell>
+          <StyledTableCell align="right">View</StyledTableCell>
+          <StyledTableCell align="right">Delete</StyledTableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {rooms.map((room) => (
+          <StyledTableRow key={room.roomNumber}>
+            <StyledTableCell component="th" scope="row">
+              {room.roomNumber}
+            </StyledTableCell>
+            <StyledTableCell align="right">{room.roomType}</StyledTableCell>
+            <StyledTableCell align="right">{room.bedCounts}</StyledTableCell>
+            <StyledTableCell align="right">{room.available}</StyledTableCell>
+            <StyledTableCell align="right">
+            <Button size="small" color="primary" onClick={()=> handleEdit(room._id,room.roomNumber,room.roomType,room.bedCounts,room.available)}> View</Button>
+            </StyledTableCell>
+            <StyledTableCell align="right">
+            <Button size="small" color="primary" onClick={()=> handleDelete(room._id)}> Delete</Button>
+            </StyledTableCell>
+          </StyledTableRow>
+        ))}
+      </TableBody>
+    </Table>
+  </TableContainer></div>
+    
+)
+} 
+
+  
