@@ -46,13 +46,16 @@ require("./routes/auth.routes")(app);
 require("./routes/user.routes")(app);
 require("./routes/info.routes")(app);
 
+const userRoute = require("./user/userRoute");
+
+app.use("/users", userRoute);
+
 // routes for managing rooms and patients
-const roomRoute = require('./room/roomRoute');
-const patientRoute = require('./patient/patientRoute');
+const roomRoute = require("./room/roomRoute");
+const patientRoute = require("./patient/patientRoute");
 
-app.use('/rooms',roomRoute);
-app.use('/patients',patientRoute)
-
+app.use("/rooms", roomRoute);
+app.use("/patients", patientRoute);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
