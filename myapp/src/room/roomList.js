@@ -10,13 +10,8 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
-import Modal from "@material-ui/core/Modal";
-import Backdrop from "@material-ui/core/Backdrop";
-import Fade from "@material-ui/core/Fade";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
-import { set } from "lodash";
 
 const url = "http://localhost:8080/rooms";
 
@@ -132,13 +127,16 @@ export default function RoomList() {
             </div>
             <div>
               <label htmlFor="roomType">Room Type</label>
-              <Input
-                type="text"
+              <select
                 className="form-control"
                 name="roomType"
                 value={roomType}
                 onChange={(e) => setRoomType(e.target.value)}
-              />
+              >
+                  <option>No sys</option>
+                  <option>Sys</option>
+                  <option>Good</option>
+              </select>
             </div>
             <div>
               <label htmlFor="bedCounts">Bed Counts</label>
