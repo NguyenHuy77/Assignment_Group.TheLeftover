@@ -134,9 +134,9 @@ export default function RoomList() {
                 value={roomType}
                 onChange={(e) => setRoomType(e.target.value)}
               >
-                  <option>No sys</option>
-                  <option>Sys</option>
-                  <option>Good</option>
+                <option>No sys</option>
+                <option>Sys</option>
+                <option>Good</option>
               </select>
             </div>
             <div>
