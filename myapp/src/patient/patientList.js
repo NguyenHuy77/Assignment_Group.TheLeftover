@@ -55,7 +55,7 @@ export default function PatientList() {
           </CardActionArea>
           <CardActions>
             <Button size="small" color="primary">
-              <Link to={`/rooms/${patient._id}`}>View</Link>
+              <Link to={`/patient/${patient._id}`}>View</Link>
             </Button>
             <Button
               size="small"

@@ -46,9 +46,9 @@ require("./routes/auth.routes")(app);
 require("./routes/user.routes")(app);
 require("./routes/info.routes")(app);
 
-const userRoute = require("./user/userRoute");
+//const userRoute = require("./user/userRoute");
 
-app.use("/users", userRoute);
+//app.use("/users", userRoute);
 
 // routes for managing rooms and patients
 const roomRoute = require("./room/roomRoute");

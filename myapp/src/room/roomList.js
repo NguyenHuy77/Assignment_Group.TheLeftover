@@ -115,6 +115,7 @@ export default function RoomList() {
       <div className="col-md-12">
         <div className="card card-container">
           <Form onSubmit={() => save()}>
+            {(id ==='') ? (<h1>Creat Room</h1>):(<h1>Edit Room</h1>)}
             <div>
               <label htmlFor="roomNumber">Room Number</label>
               <Input
@@ -158,10 +159,15 @@ export default function RoomList() {
                 onChange={(e) => setAvailable(e.target.value)}
               />
             </div>
+            {(id ==='') ? (
             <Button size="small" color="primary" onClick={() => save()}>
-              {" "}
+              Create
+            </Button>)
+            :(
+            <Button size="small" color="primary" onClick={() => save()}>
               Edit
-            </Button>
+            </Button>)}
+            
           </Form>
         </div>
       </div>
