@@ -15,7 +15,8 @@ import EventBus from "./event-bus";
 
 import RoomList from "./room/roomList"
 import PatientList from "./patient/patientList"
-import RoomDetail from "./room/roomDetail";
+import { PatientDetail } from "./patient/patientDetail";
+
 
 class App extends Component {
   constructor(props) {
@@ -127,12 +128,7 @@ class App extends Component {
             <Route exact path="/profile" component={Profile} />
             <Route exact path="/room" component={RoomList}/>
             <Route exact path="/patient" component={PatientList}/>
-            <Route path={`/room/:id`} render={(props) =>
-                <RoomDetail {...props} />
-            } />
-            <Route path={`/patient/:id`} render={(props) =>
-                <RoomDetail {...props} />
-            } />
+            <Route path={`/patient/:id`} > <PatientDetail/></Route>
           </Switch>
         </div>
 
