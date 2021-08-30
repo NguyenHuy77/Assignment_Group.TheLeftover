@@ -13,7 +13,7 @@ import Button from "@material-ui/core/Button";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 
-const url = "http://localhost:8080/rooms";
+const url = "http://localhost:8080/users";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -133,9 +133,9 @@ export default function RoomList() {
                 value={roomType}
                 onChange={(e) => setRoomType(e.target.value)}
               >
-                  <option>No sys</option>
-                  <option>Sys</option>
-                  <option>Good</option>
+                <option>No sys</option>
+                <option>Sys</option>
+                <option>Good</option>
               </select>
             </div>
             <div>
