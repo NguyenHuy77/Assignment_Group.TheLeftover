@@ -16,6 +16,7 @@ import EventBus from "./event-bus";
 import RoomList from "./room/roomList"
 import PatientList from "./patient/patientList"
 import { PatientDetail } from "./patient/patientDetail";
+import { PatientCreate } from "./patient/patientCreate";
 
 
 class App extends Component {
@@ -98,9 +99,9 @@ class App extends Component {
                 </Link>
               </li>
               <li className="nav-item">
-                <a href="/login" className="nav-link" onClick={this.logOut}>
-                  LogOut
-                </a>
+                <Link to={"/patient/create"} className="nav-link">
+                  Creat Patient Information
+                </Link>
               </li>
             </div>
           ) : (
@@ -128,6 +129,7 @@ class App extends Component {
             <Route exact path="/profile" component={Profile} />
             <Route exact path="/room" component={RoomList}/>
             <Route exact path="/patient" component={PatientList}/>
+            <Route exact path="/patient/create" component={PatientCreate}/>
             <Route path={`/patient/:id`} > <PatientDetail/></Route>
           </Switch>
         </div>

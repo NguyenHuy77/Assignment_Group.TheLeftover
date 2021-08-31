@@ -5,13 +5,9 @@ import Button from "@material-ui/core/Button";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import { useParams } from "react-router-dom";
-import { RelativeTable } from "./relativeTable";
 
 const url = "http://localhost:8080/patients";
-
-
-export function PatientDetail (){
-    const [patient, setPatient] = useState([]);
+export function PatientCreate (){
     const [name,setName] = useState();
     const [age,setAge] = useState();
     const [nationalID,setNationalID] = useState();
@@ -20,54 +16,32 @@ export function PatientDetail (){
     const [symptoms,setSymptoms] =  useState();
     const [healthStatus,setHealthStatus] =  useState();
     const [procession,setProcession] =  useState();
-    const [relationNumber,setRelationNumber] = useState()
 
-    let {id} = useParams()
 
-    const fetchPatient = () =>{
-     fetch(url+'/'+id)
-      .then((res) => res.json())
-      .then((json) => setPatient(json))
-      .then(()=>{changePatient()});
-    }
-    
-    const changePatient = () =>{
-        setName(patient.patientName);
-        setAge(patient.age);
-        setNationalID(patient.nationalID);
-        setAddress(patient.address);
-        setDay(patient.day);
-        setSymptoms(patient.symptoms);
-        setHealthStatus(patient.healthStatus);
-        setProcession(patient.procession)
-        setRelationNumber(patient.relationNumber)
-    }
-    const save = () => {
-          fetch(url + "/" + id, {
-            method: "PATCH",
+    const createPatient = () => {
+          fetch(url, {
+            method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              namePatient:name,
-              age:age,
-              nationalID:nationalID,
-              address:address,
-              day:day,
-              symptoms:symptoms,
-              healthStatus:healthStatus,
-              procession:procession
+                namePatient:name,
+                age:age,
+                nationalID:nationalID,
+                address:address,
+                day:day,
+                symptoms:symptoms,
+                healthStatus:healthStatus,
+                procession:procession
             }),
-          }).then((data) => fetchPatient());
+          })
       };
 
-    useEffect(() => {
-      fetchPatient()})
     return(
         <div>
              <div className="col-md-12">
                 <div className="card card-container">
-                <h1>Edit Patient</h1>
+                    <h1>Patient Form</h1>
                     <Form>
                        <label htmlFor="name">Patient Name</label>
                         <Input
@@ -133,8 +107,8 @@ export function PatientDetail (){
                           value={procession}
                           onChange={(e) => setProcession(e.target.value)}
                         />
-                    <Button  size="small" color="primary" onClick={() => save()}>
-                    Edit
+                    <Button  size="small" color="primary" onClick={() => createPatient()}>
+                    Create
                     </Button>
                     </Form>
                 </div>
