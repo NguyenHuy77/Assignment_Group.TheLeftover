@@ -20,7 +20,8 @@ export function PatientDetail (){
     const [symptoms,setSymptoms] =  useState();
     const [healthStatus,setHealthStatus] =  useState();
     const [procession,setProcession] =  useState();
-    const [relationNumber,setRelationNumber] = useState()
+    const [relationNumber,setRelationNumber] = useState();
+    const [role,setRole]=useState("View")
 
     let {id} = useParams()
 
@@ -28,10 +29,10 @@ export function PatientDetail (){
      fetch(url+'/'+id)
       .then((res) => res.json())
       .then((json) => setPatient(json))
-      .then(()=>{changePatient()});
     }
     
     const changePatient = () =>{
+        setRole("Edit")
         setName(patient.patientName);
         setAge(patient.age);
         setNationalID(patient.nationalID);
@@ -74,7 +75,7 @@ export function PatientDetail (){
                           type="text"
                           className="form-control"
                           name="name"
-                          value={name}
+                          value={(role==="Edit")?(name):(patient.age)}
                           onChange={(e) => setName(e.target.value)}
                         />
                         <label htmlFor="age">Age</label>
@@ -82,7 +83,7 @@ export function PatientDetail (){
                           type="text"
                           className="form-control"
                           name="age"
-                          value={age}
+                          value={(role==="Edit")?(age):(patient.age)}
                           onChange={(e) => setAge(e.target.value)}
                         />
                         <label htmlFor="age">National ID</label>
@@ -90,7 +91,7 @@ export function PatientDetail (){
                           type="text"
                           className="form-control"
                           name="nationalID"
-                          value={nationalID}
+                          value={(role==="Edit")?(nationalID):(patient.nationalID)}
                           onChange={(e) => setNationalID(e.target.value)}
                         />
                         <label htmlFor="age">Address</label>
@@ -98,7 +99,7 @@ export function PatientDetail (){
                           type="text"
                           className="form-control"
                           name="address"
-                          value={address}
+                          value={(role==="Edit")?(address):(patient.address)}
                           onChange={(e) => setAddress(e.target.value)}
                         />
                         <label htmlFor="age">Day</label>
@@ -106,7 +107,7 @@ export function PatientDetail (){
                           type="text"
                           className="form-control"
                           name="day"
-                          value={day}
+                          value={(role==="Edit")?(day):(patient.day)}
                           onChange={(e) => setDay(e.target.value)}
                         />
                         <label htmlFor="age">Symptom</label>
@@ -114,7 +115,7 @@ export function PatientDetail (){
                           type="text"
                           className="form-control"
                           name="symptoms"
-                          value={symptoms}
+                          value={(role==="Edit")?(symptoms):(patient.symptoms)}
                           onChange={(e) => setSymptoms(e.target.value)}
                         />
                         <label htmlFor="age">Health Status</label>
@@ -122,7 +123,7 @@ export function PatientDetail (){
                           type="text"
                           className="form-control"
                           name="healthStatus"
-                          value={healthStatus}
+                          value={(role==="Edit")?(healthStatus):(patient.healthStatus)}
                           onChange={(e) => setHealthStatus(e.target.value)}
                         />
                         <label htmlFor="age">Procession</label>
@@ -130,12 +131,18 @@ export function PatientDetail (){
                           type="text"
                           className="form-control"
                           name="procession"
-                          value={procession}
+                           value={(role==="Edit")?(procession):(patient.procession)}
                           onChange={(e) => setProcession(e.target.value)}
                         />
-                    <Button  size="small" color="primary" onClick={() => save()}>
-                    Edit
-                    </Button>
+                    {(role==="View")?( 
+                      <Button  size="small" color="primary" onClick={() => changePatient()}>
+                      Edit
+                      </Button>)
+                      :( 
+                      <Button  size="small" color="primary" onClick={() => save()}>
+                      Save
+                      </Button>)}
+                   
                     </Form>
                 </div>
             </div>

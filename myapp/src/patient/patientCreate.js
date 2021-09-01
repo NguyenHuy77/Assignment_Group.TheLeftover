@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Switch, Route, Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
@@ -25,7 +26,7 @@ export function PatientCreate (){
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                namePatient:name,
+                patientName:name,
                 age:age,
                 nationalID:nationalID,
                 address:address,
@@ -108,7 +109,7 @@ export function PatientCreate (){
                           onChange={(e) => setProcession(e.target.value)}
                         />
                     <Button  size="small" color="primary" onClick={() => createPatient()}>
-                    Create
+                          <Link to={"/patient"}>Create</Link>
                     </Button>
                     </Form>
                 </div>

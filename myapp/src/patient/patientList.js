@@ -23,7 +23,7 @@ export default function PatientList() {
 
   useEffect(() => {
     fetchPatient();
-  });
+  },[]);
 
   const handleDelete = (id) => {
     fetch(url + "/" + id, {
