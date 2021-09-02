@@ -21,7 +21,7 @@ function Viewing() {
   };
 
   const getMulSymptomsPatients = (source) => {
-    return source.filter((row) => row.symptoms > 1);
+    return source.filter((row) => row.symptoms.length > 1);
   };
 
   const getToDischargePatients = (source) => {

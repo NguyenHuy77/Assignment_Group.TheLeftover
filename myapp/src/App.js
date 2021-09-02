@@ -1,12 +1,13 @@
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import Search from "./Search";
+import Calendar from "./calendar";
+import Search from "./search";
 
 function App() {
   return (
     <div>
-      <Search />
+      <Calendar />
     </div>
   );
 }

@@ -1,5 +1,10 @@
 function SearchTable({ data }) {
-  const columns = data[0] && Object.keys(data[0]);
+  const firstRow = data[0];
+  const columns =
+    firstRow &&
+    Object.keys(firstRow).filter(
+      (column) => typeof firstRow[column] !== "object"
+    );
 
   return (
     <div>
@@ -21,9 +26,11 @@ function SearchTable({ data }) {
           {data &&
             data.map((item, i) => (
               <tr key={i}>
-                {columns.map((column, j) => (
-                  <td key={j}>{item[column]}</td>
-                ))}
+                {columns.map((column, j) => {
+                  if (typeof item[column] !== "object")
+                    return <td key={j}>{item[column]}</td>;
+                  return null;
+                })}
               </tr>
             ))}
         </tbody>

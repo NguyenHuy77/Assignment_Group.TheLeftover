@@ -1,0 +1,9 @@
+.hoverable:hover {
+  background-color: lightgray !important;
+  transition: background-color 0.4s ease-out;
+}
+
+/* --- modal --- */
+.modal-body {
+  min-height: 12rem;
+}
