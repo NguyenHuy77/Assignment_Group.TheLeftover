@@ -5,5 +5,9 @@
 
 /* --- modal --- */
 .modal-body {
-  min-height: 12rem;
+  min-height: 22rem;
+}
+
+.full-width {
+  width: 100%
 }
