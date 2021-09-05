@@ -5,7 +5,7 @@ import Button from "@material-ui/core/Button";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import { useParams } from "react-router-dom";
-import { RelativeTable } from "./relativeTable";
+import {TestTable } from "./testTable";
 
 const url = "http://localhost:8080/patients";
 
@@ -50,7 +50,7 @@ export function PatientDetail (){
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              namePatient:name,
+              patientName:name,
               age:age,
               nationalID:nationalID,
               address:address,
@@ -75,7 +75,7 @@ export function PatientDetail (){
                           type="text"
                           className="form-control"
                           name="name"
-                          value={(role==="Edit")?(name):(patient.age)}
+                          value={(role==="Edit")?(name):(patient.patientName)}
                           onChange={(e) => setName(e.target.value)}
                         />
                         <label htmlFor="age">Age</label>
@@ -142,10 +142,10 @@ export function PatientDetail (){
                       <Button  size="small" color="primary" onClick={() => save()}>
                       Save
                       </Button>)}
-                   
                     </Form>
                 </div>
             </div>
+            <TestTable id={id}/>
         </div>
     )
 }

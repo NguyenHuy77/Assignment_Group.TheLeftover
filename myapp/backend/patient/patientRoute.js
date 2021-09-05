@@ -54,4 +54,30 @@ router.patch('/:patientID', async (req,res) => {
     }
 })
 
+//update Test result
+router.patch('/:patientID/:testID', async (req,res) => {
+    try{
+        await Patient.findOneAndUpdate(
+            {"_id":req.params.patientID,"testResults._id":req.params.testID}, 
+            { $set: {"testResults.$" :req.body}});
+        await Patient.save();
+        res.send(Patient);
+    }catch(e){
+        res.json({message: e});
+    }
+})
+
+//delete Test result
+
+router.delete('/:patientID/:testID', async (req,res) => {
+    try{
+        await Patient.findOneAndUpdate(
+            {"_id":req.params.patientID}, 
+            { $pull: {"testResults" :{"_id": req.params.testID}}});
+        await Patient.save();
+    }catch(e){
+        res.json({message :e})
+    }
+})
+
 module.exports = router;
