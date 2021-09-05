@@ -1,13 +1,13 @@
 import "./Calendar.css";
 import { useState, useEffect } from "react";
-import { Container, Row, Col, ListGroup } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import dayjs from "dayjs";
 
+import CalendarHeader from "./CalendarHeader";
+import CalendarCell from "./CalendarCell";
 import CalendarModal from "./CalendarModal";
 
 import buildCal from "./buildCal";
-import CalendarHeader from "./CalendarHeader";
-import CalendarCell from "./CalendarCell";
 
 const now = dayjs();
 
@@ -16,6 +16,9 @@ function Calendar() {
   const [time, setTime] = useState(now);
   const [show, setShow] = useState(false);
   const [events, setEvents] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [rooms, setRooms] = useState([]);
+  const [dayCell, setDayCell] = useState(now);
   const [eventsCell, setEventsCell] = useState([]);
   const weekdays = [
     "Sunday",
@@ -26,34 +29,39 @@ function Calendar() {
     "Friday",
     "Saturday",
   ];
-  const endPoint = "http://localhost:9880/events";
 
-  const getEvents = () => {
-    fetch(endPoint)
-      .then((res) => res.json())
-      .then((data) => {
-        setEvents(data);
-      });
+  const endPoint = "http://localhost:9880/";
+
+  const getEvents = async () => {
+    const res = await fetch(endPoint + "events");
+    const data = await res.json();
+    setEvents(data);
   };
 
-  const addEvents = (data) => {
-    fetch(endPoint, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        // 'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: JSON.stringify(data), // body data type must match "Content-Type" header
-    });
+  const getUsers = async () => {
+    const res = await fetch(endPoint + "users");
+    const data = await res.json();
+    setUsers(data);
   };
 
-  const modalOnOpen = (eventList) => {
+  const getRooms = async () => {
+    const res = await fetch(endPoint + "rooms");
+    const data = await res.json();
+    setRooms(data);
+  };
+
+  const modalOnOpen = (day, eventList) => {
     setShow(true);
+    setDayCell(day);
     setEventsCell(eventList);
   };
 
   const modalOnClose = () => {
     setShow(false);
+  };
+
+  const modalOnAdd = () => {
+    getEvents();
   };
 
   useEffect(() => {
@@ -62,6 +70,8 @@ function Calendar() {
 
   useEffect(() => {
     getEvents();
+    getUsers();
+    getRooms();
   }, []);
 
   return (
@@ -93,7 +103,7 @@ function Calendar() {
                     time={time}
                     day={day}
                     events={eventList}
-                    toggleModal={() => modalOnOpen(eventList)}
+                    toggleModal={() => modalOnOpen(day, eventList)}
                   />
                 );
               })}
@@ -101,7 +111,15 @@ function Calendar() {
           ))}
         </Container>
       </Container>
-      <CalendarModal show={show} onHide={modalOnClose} events={eventsCell} />
+      <CalendarModal
+        show={show}
+        onHide={modalOnClose}
+        events={eventsCell}
+        users={users}
+        rooms={rooms}
+        day={dayCell}
+        refresh={modalOnAdd}
+      />
       {/* </Container> */}
     </Container>
   );
