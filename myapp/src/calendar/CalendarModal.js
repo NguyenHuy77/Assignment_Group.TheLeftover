@@ -28,7 +28,7 @@ function MyModal({ show = false, onHide, events, rooms, users, day, refresh }) {
       room: roomSelect,
       date: day.hour(hourSelect).minute(minuteSelect).format(),
     };
-    const res = await fetch(endPoint, {
+    const res = await fetch(((!toggleEdit ? endPoint : endPoint + `/${eventEdit.id}`) ), {
       method: !toggleEdit ? "POST" : "PATCH",
       body: JSON.stringify(data),
       headers: {
