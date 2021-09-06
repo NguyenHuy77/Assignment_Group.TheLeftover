@@ -14,7 +14,7 @@ function CalendarModal({ refresh }) {
   const [toggleDelete, setToggleDelete] = useState(false);
   const [eventEdit, setEventEdit] = useState(null);
 
-  const endPoint = "http://localhost:9880/events";
+  const endPoint = "http://localhost:9880/events/";
 
   const handleClick = (event) => {
     if (toggleDelete) {
