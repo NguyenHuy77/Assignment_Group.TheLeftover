@@ -12,7 +12,7 @@ const patientSchema= mongoose.Schema({
     day:{type: Number, require: true, min:1},
     symptoms:{type: String, require: true},
     testResults:[{
-        result:{type: Boolean, require: true},
+        result:{type: String, require: true},
         dateTest:{type: Date, require: true},
         testTime:{ type: Number,require: true},
         nurse:{type: String, require: true}

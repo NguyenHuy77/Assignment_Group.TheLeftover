@@ -17,6 +17,7 @@ export function TestTable({id}) {
 
    const [patient, setPatient] = useState([]);
    const [testResults,setTestResults] = useState([])
+   const [newResults,setNewResults] = useState([])
    const [idTest, setIdTest] = useState("");
    const [testDetail, setTestDetail] = useState({result : '', dateTest: '', testTime : '', nurse :''})
 
@@ -26,6 +27,10 @@ export function TestTable({id}) {
      .then((json) => setPatient(json))
      .then(()=>{changeResult()});
    }
+   useEffect(() => {
+    fetchPatient();
+    })
+
 
    const handleEdit = (id, tTime, dTest, result, nurse) => {
     setIdTest(id);
@@ -37,7 +42,7 @@ export function TestTable({id}) {
    }
 
 
-   const handleChange = e => {
+   const handleChange = (e) => {
     const { name, value } = e.target;
     setTestDetail(prevState => ({
         ...prevState,
@@ -55,7 +60,33 @@ export function TestTable({id}) {
     }).then((data) => fetchPatient());
   };
 
-  const save = () =>{}
+  const save = () =>{if (idTest === "") {
+    fetch(url+'/'+_id, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        testResults:newResults
+      }),
+    }).then();
+  } else {
+    fetch(url + "/" + _id+ "/" +idTest, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+          testTime:testDetail.testTime,
+          dateTest:testDetail.dateTest,
+          result:testDetail.result,
+          nurse:testDetail.nurse
+      }),
+    }).then((data) => fetchPatient());
+  }}
+
+
+
   const StyledTableCell = withStyles((theme) => ({
         head: {
           backgroundColor: theme.palette.common.black,
@@ -75,10 +106,6 @@ export function TestTable({id}) {
       }))(TableRow);
 
 
-    useEffect(() => {
-    fetchPatient();
-    (patient !== undefined)&(testResults!==undefined)&&(console.log(patient,testResults))
-    })
     return(
         <div>
             <TableContainer component={Paper}>
@@ -130,20 +157,24 @@ export function TestTable({id}) {
         {(idTest ==='') ? (<h1>New Test Result</h1>):(<h1>Edit Result</h1>)}
           <div class="row">
             <div class="col">
-            <input type="text" class="form-control" placeholder="Test Time" name="testTime" value={testDetail.testTime} onChange={() => handleChange()}/>
+            <input type="text" class="form-control" placeholder="Test Time" name="testTime" value={testDetail.testTime} onChange={handleChange}/>
             </div>
             <div class="col">
-            <input type="password" class="form-control" placeholder="Result" name="result" value={testDetail.result} onChange={() => handleChange()}/>
+            <input type="text" class="form-control" placeholder="Result" name="result" value={testDetail.result} onChange={handleChange}/>
             </div>
             <div class="col">
-            <input type="text" class="form-control" placeholder="Date Test" name="dateTest" value={testDetail.dateTest} onChange={() => handleChange()}/>
+            <input type="text" class="form-control" placeholder="Date Test" name="dateTest" value={testDetail.dateTest} onChange={handleChange}/>
             </div>
             <div class="col">
-            <input type="password" class="form-control" placeholder="Nurse" name="nurse" value={testDetail.nurse} onChange={() => handleChange()}/>
+            <input type="text" class="form-control" placeholder="Nurse" name="nurse" value={testDetail.nurse} onChange={handleChange}/>
             </div>
           </div>
           {(idTest ==='') ? (
-            <Button  color="primary" onClick={() => save()}>
+            <Button  color="primary" onClick={() => {
+              setNewResults(testResults)
+              setNewResults(pre =>[...pre,testDetail]);
+              save();
+              }}>
               Create
             </Button>)
             :(
