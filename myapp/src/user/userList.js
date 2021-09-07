@@ -244,9 +244,7 @@ export default function UserList() {
               <StyledTableCell align="right">Work Place</StyledTableCell>
               <StyledTableCell align="right">Username</StyledTableCell>
               <StyledTableCell align="right">Email</StyledTableCell>
-              <StyledTableCell align="right">Password</StyledTableCell>
               <StyledTableCell align="right">Role</StyledTableCell>
-              <StyledTableCell align="right">Available</StyledTableCell>
               <StyledTableCell align="right">View</StyledTableCell>
               <StyledTableCell align="right">Delete</StyledTableCell>
             </TableRow>
@@ -268,7 +266,6 @@ export default function UserList() {
                 </StyledTableCell>
                 <StyledTableCell align="right">{user.username}</StyledTableCell>
                 <StyledTableCell align="right">{user.email}</StyledTableCell>
-                <StyledTableCell align="right">{user.password}</StyledTableCell>
                 <StyledTableCell align="right">{user.role}</StyledTableCell>
                 <StyledTableCell align="right">
                   <Button

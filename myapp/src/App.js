@@ -88,11 +88,6 @@ class App extends Component {
                   {currentUser.username}
                 </Link>
               </li>
-              <li className="nav-item">
-                <a href="/login" className="nav-link" onClick={this.logOut}>
-                  LogOut
-                </a>
-              </li>
               {currentUser.username === "admin" && (
                 <li className="nav-item">
                   <Link to={"/room"} className="nav-link">
@@ -109,6 +104,11 @@ class App extends Component {
                 <Link to={"/patient/create"} className="nav-link">
                   Creat Patient Information
                 </Link>
+              </li>
+              <li className="nav-item">
+                <a href="/login" className="nav-link" onClick={this.logOut}>
+                  LogOut
+                </a>
               </li>
             </div>
           ) : (
