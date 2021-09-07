@@ -51,12 +51,14 @@ require("./routes/info.routes")(app);
 
 //app.use("/users", userRoute);
 
-// routes for managing rooms and patients
+// routes for managing rooms patients and events
 const roomRoute = require("./room/roomRoute");
 const patientRoute = require("./patient/patientRoute");
+const eventRoute = require("./event/eventRoute");
 
 app.use("/rooms", roomRoute);
 app.use("/patients", patientRoute);
+app.use("/events", eventRoute);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
