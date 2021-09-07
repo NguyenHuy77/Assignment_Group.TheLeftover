@@ -13,6 +13,7 @@ import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
+import Register from "../components/adminRegister";
 
 const url = "http://localhost:8080/users";
 
@@ -141,7 +142,8 @@ export default function UserList() {
     <div>
       <div className="col-md-12">
         <div className="card card-container">
-          <Form onSubmit={() => save()}>
+          {(id==="")?(<Register/>):(
+            <Form onSubmit={() => save()}>
             <div>
               <label htmlFor="name">Name</label>
               <Input
@@ -227,6 +229,8 @@ export default function UserList() {
               Edit
             </Button>
           </Form>
+          )}
+          
         </div>
       </div>
 
