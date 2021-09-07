@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { useState, useEffect } from "react";
+import { Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -10,13 +11,8 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
-import Modal from "@material-ui/core/Modal";
-import Backdrop from "@material-ui/core/Backdrop";
-import Fade from "@material-ui/core/Fade";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
-import { set } from "lodash";
 
 const url = "http://localhost:8080/users";
 
@@ -307,6 +303,11 @@ export default function UserList() {
           </TableBody>
         </Table>
       </TableContainer>
+      <button
+          color="blue"
+      >
+        <Link to="/calendar">Calendar</Link>            
+      </button>
     </div>
   );
 }

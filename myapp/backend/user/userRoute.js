@@ -42,3 +42,5 @@ router.delete("/:userID", async (req, res) => {
     res.json({ message: e });
   }
 });
+
+module.exports = router;
