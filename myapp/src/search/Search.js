@@ -56,12 +56,14 @@ function Search() {
     <div className="container-fluid mt-4">
       <SearchBar onSubmit={searchOnSubmit} />
 
-      <SearchFilter
-        data={results}
-        filters={filterList}
-        onSelect={filterOnChange}
-        onDelete={filterOnDelete}
-      />
+      {query && (
+        <SearchFilter
+          data={results}
+          filters={filterList}
+          onSelect={filterOnChange}
+          onDelete={filterOnDelete}
+        />
+      )}
 
       <SearchTable data={results} />
     </div>
