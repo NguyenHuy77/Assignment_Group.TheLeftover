@@ -13,14 +13,13 @@ import Profile from "./components/profile";
 import AuthVerify from "./authorize-verify";
 import EventBus from "./event-bus";
 
-import RoomList from "./room/roomList"
-import PatientList from "./patient/patientList"
+import RoomList from "./room/roomList";
+import PatientList from "./patient/patientList";
 import { PatientDetail } from "./patient/patientDetail";
 import { PatientCreate } from "./patient/patientCreate";
 import Footer from "./footer";
-import User from "./user/userList"
-import Calendar from "./calendar/index"
-
+import User from "./user/userList";
+import Calendar from "./calendar/index";
 
 class App extends Component {
   constructor(props) {
@@ -89,12 +88,17 @@ class App extends Component {
                   {currentUser.username}
                 </Link>
               </li>
-              {currentUser.username==="admin" && (
-                <li className="nav-item">
-                <Link to={"/room"} className="nav-link">
-                  Room
-                </Link>
+              <li className="nav-item">
+                <a href="/login" className="nav-link" onClick={this.logOut}>
+                  LogOut
+                </a>
               </li>
+              {currentUser.username === "admin" && (
+                <li className="nav-item">
+                  <Link to={"/room"} className="nav-link">
+                    Room
+                  </Link>
+                </li>
               )}
               <li className="nav-item">
                 <Link to={"/patient"} className="nav-link">
@@ -131,16 +135,19 @@ class App extends Component {
             <Route exact path="/register" component={Register} />
             <Route exact path="/profile" component={Profile} />
             <Route exact path="/user" component={User} />
-            <Route exact path="/calendar" component={Calendar}/>
-            <Route exact path="/room" component={RoomList}/>
-            <Route exact path="/patient" component={PatientList}/>
-            <Route exact path="/patient/create" component={PatientCreate}/>
-            <Route path={`/patient/:id`} > <PatientDetail/></Route>
+            <Route exact path="/calendar" component={Calendar} />
+            <Route exact path="/room" component={RoomList} />
+            <Route exact path="/patient" component={PatientList} />
+            <Route exact path="/patient/create" component={PatientCreate} />
+            <Route path={`/patient/:id`}>
+              {" "}
+              <PatientDetail />
+            </Route>
           </Switch>
         </div>
 
         <AuthVerify logOut={this.logOut} />
-        <Footer/>
+        <Footer />
       </div>
     );
   }

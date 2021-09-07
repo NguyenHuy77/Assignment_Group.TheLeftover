@@ -5,9 +5,11 @@ const getSearch = (source, query, columns) => {
 
   return source.filter((row) => {
     return queries.every((query) => {
-      return columns.some((column) =>
-        row[column].toString().toLowerCase().includes(query)
-      );
+      return columns.some((column) => {
+        if (row[column])
+          return row[column].toString().toLowerCase().includes(query);
+        return false;
+      });
     });
   });
 };
