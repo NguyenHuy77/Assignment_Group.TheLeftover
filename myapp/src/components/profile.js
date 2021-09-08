@@ -122,7 +122,7 @@ export default class Profile extends Component {
     this.state = {
       redirect: null,
       userReady: false,
-      currentUser: { username: "" },
+      currentUser: { username: "",  },
       successful: false,
       message: "",
     };
@@ -193,7 +193,7 @@ export default class Profile extends Component {
 
     this.form.validateAll();
 
-    if (this.checkBtn.context._errors.length === 0) {
+    
       AuthService.register(
         this.state.name,
         this.state.nationalID,
@@ -224,7 +224,7 @@ export default class Profile extends Component {
           });
         }
       );
-    }
+    
   }
 
   render() {
