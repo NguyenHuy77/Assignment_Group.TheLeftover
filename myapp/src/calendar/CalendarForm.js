@@ -18,10 +18,8 @@ function CalendarForm({ event, onClose }) {
   const formOnSubmit = async () => {
     if (userSelect === "" || roomSelect === "")
       return setError("Please select both doctor and room");
-    const userSelected = usersAll.filter((user) => user.id === userSelect)[0];
     const data = {
-      name: userSelected.name,
-      userId: userSelect,
+      userID: userSelect,
       room: roomSelect,
       date: dateFocus.hour(hourSelect).minute(minuteSelect).format(),
     };
@@ -71,7 +69,7 @@ function CalendarForm({ event, onClose }) {
         <option value="">-- Select --</option>
         {usersAll &&
           usersAll.map((user, idx) => {
-            if (event && event.userId === user._id) {
+            if (event && event.userID === user._id) {
               return (
                 <option key={idx} selected defaultValue={user._id}>
                   {user.name} - {user._id}
