@@ -18,7 +18,7 @@ function CalendarForm({ event, onClose }) {
   const formOnSubmit = async () => {
     if (userSelect === "" || roomSelect === "")
       return setError("Please select both doctor and room");
-    const userSelected = usersAll.filter((user) => user.id == userSelect)[0];
+    const userSelected = usersAll.filter((user) => user.id === userSelect)[0];
     const data = {
       name: userSelected.name,
       userId: userSelect,
@@ -71,16 +71,16 @@ function CalendarForm({ event, onClose }) {
         <option value="">-- Select --</option>
         {usersAll &&
           usersAll.map((user, idx) => {
-            if (event && event.userId == user.id) {
+            if (event && event.userId === user._id) {
               return (
-                <option key={idx} selected defaultValue={user.id}>
-                  {user.name} - {user.id}
+                <option key={idx} selected defaultValue={user._id}>
+                  {user.name} - {user._id}
                 </option>
               );
             }
             return (
-              <option key={idx} value={user.id}>
-                {user.name} - {user.id}
+              <option key={idx} value={user._id}>
+                {user.name} - {user._id}
               </option>
             );
           })}
@@ -96,7 +96,7 @@ function CalendarForm({ event, onClose }) {
         <option value="">-- Select --</option>
         {roomsAll &&
           roomsAll.map((room, idx) => {
-            if (event && event.room == room.roomNumber) {
+            if (event && event.room === room.roomNumber) {
               return (
                 <option key={idx} selected defaultValue={room.roomNumber}>
                   {room.roomNumber}
