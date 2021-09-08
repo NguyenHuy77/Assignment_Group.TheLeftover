@@ -8,7 +8,6 @@ import AuthService from "./services/auth.service";
 import Login from "./components/login";
 import Register from "./components/register";
 import Home from "./components/home";
-import Profile from "./components/profile";
 
 import AuthVerify from "./authorize-verify";
 import EventBus from "./event-bus";
@@ -20,6 +19,7 @@ import { PatientCreate } from "./patient/patientCreate";
 import Footer from "./footer";
 import User from "./user/userList";
 import Calendar from "./calendar/index";
+import { Profile } from "./components/profile";
 
 class App extends Component {
   constructor(props) {

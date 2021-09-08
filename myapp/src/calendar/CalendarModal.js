@@ -14,11 +14,11 @@ function CalendarModal({ refresh }) {
   const [toggleDelete, setToggleDelete] = useState(false);
   const [eventEdit, setEventEdit] = useState(null);
 
-  const endPoint = "http://localhost:8080/events";
+  const endPoint = "http://localhost:8080/events/";
 
   const handleClick = (event) => {
     if (toggleDelete) {
-      handleDelete(event.id);
+      handleDelete(event._id);
       refresh();
       modalOnClose();
     } else {
