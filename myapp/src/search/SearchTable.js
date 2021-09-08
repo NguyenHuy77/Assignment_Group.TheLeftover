@@ -1,3 +1,5 @@
+import { Button } from "react-bootstrap";
+
 function SearchTable({ data }) {
   const firstRow = data[0];
   const columns =
@@ -31,6 +33,11 @@ function SearchTable({ data }) {
                     return <td key={j}>{item[column]}</td>;
                   return null;
                 })}
+                <td colSpan="3">
+                  {<Button className="me-2">View</Button>}
+                  {<Button className="me-2">Edit</Button>}
+                  {<Button>Delete</Button>}
+                </td>
               </tr>
             ))}
         </tbody>
