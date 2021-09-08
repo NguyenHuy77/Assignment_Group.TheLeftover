@@ -10,6 +10,8 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { Switch, Route, Link } from "react-router-dom";
 
+import Search from "../search/Search"
+
 const url = "http://localhost:8080/patients";
 
 export default function PatientList() {
@@ -36,6 +38,7 @@ export default function PatientList() {
   };
   return (
     <div>
+      <Search/>
       {patients.map((patient) => (
         <Card style={{ width: 180 }} key={patient._id}>
           <CardActionArea>
