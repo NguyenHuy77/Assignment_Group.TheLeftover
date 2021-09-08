@@ -43,4 +43,15 @@ router.get("/", async (req, res) => {
     }
   });
 
+  router.patch('/:eventID', async (req,res) => {
+    try {
+        await Event.findByIdAndUpdate(req.params.eventID, req.body);
+        await Event.save();
+        res.send(Event);
+      } catch (error) {
+        res.status(500).send(error);
+      }
+})
+
+
   module.exports = router;

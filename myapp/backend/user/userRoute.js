@@ -33,6 +33,18 @@ router.get("/:userID", async (req, res) => {
   }
 });
 
+
+router.patch('/:userID', async (req,res) => {
+  try {
+      await User.findByIdAndUpdate(req.params.userID, req.body);
+      await User.save();
+      res.send(User);
+    } catch (error) {
+      res.status(500).send(error);
+    }
+})
+
+
 //delete user info by ID
 router.delete("/:userID", async (req, res) => {
   try {
