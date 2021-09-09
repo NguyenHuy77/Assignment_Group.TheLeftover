@@ -20,6 +20,7 @@ import Footer from "./footer";
 import User from "./user/userList";
 import Calendar from "./calendar/index";
 import { Profile } from "./components/profile";
+import { UserSchedule } from "./user/userSchedule";
 
 class App extends Component {
   constructor(props) {
@@ -71,23 +72,22 @@ class App extends Component {
                 Home
               </Link>
             </li>
-
-            {currentUser && (
-              <li className="nav-item">
-                <Link to={"/user"} className="nav-link">
-                  User
-                </Link>
-              </li>
-            )}
           </div>
 
           {currentUser ? (
             <div className="navbar-nav ml-auto">
               <li className="nav-item">
                 <Link to={"/profile"} className="nav-link">
-                  {currentUser.username}
+                  Profile
                 </Link>
               </li>
+              {currentUser.username === "admin" && (
+                <li className="nav-item">
+                <Link to={"/user"} className="nav-link">
+                  User
+                </Link>
+                </li>
+              )}
               {currentUser.username === "admin" && (
                 <li className="nav-item">
                   <Link to={"/room"} className="nav-link">
@@ -95,6 +95,17 @@ class App extends Component {
                   </Link>
                 </li>
               )}
+              {currentUser.username === "admin" ? (
+                <li className="nav-item">
+                  <Link to={"/calendar"} className="nav-link">
+                    Calendar
+                  </Link>
+                </li>
+              ):(<li className="nav-item">
+                  <Link to={`/schedule/${currentUser.id}`} className="nav-link">
+                   User Schedule
+                  </Link>
+                </li>)}
               <li className="nav-item">
                 <Link to={"/patient"} className="nav-link">
                   Patient
@@ -118,12 +129,6 @@ class App extends Component {
                   Login
                 </Link>
               </li>
-
-              <li className="nav-item">
-                <Link to={"/register"} className="nav-link">
-                  Sign Up
-                </Link>
-              </li>
             </div>
           )}
         </nav>
@@ -142,6 +147,10 @@ class App extends Component {
             <Route path={`/patient/:id`}>
               {" "}
               <PatientDetail />
+            </Route>
+            <Route path={`/schedule/:id`}>
+              {" "}
+              <UserSchedule/>
             </Route>
           </Switch>
         </div>

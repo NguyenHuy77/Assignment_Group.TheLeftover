@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 import UserService from "../services/user.service";
+import HomeDesign from "./homeDesign";
 
 export default class Home extends Component {
   constructor(props) {
@@ -32,9 +33,9 @@ export default class Home extends Component {
   render() {
     return (
       <div className="container">
-        <header className="jumbotron">
-          <h3>{this.state.content}</h3>
-        </header>
+        
+        {(this.state.content === "Public Content.")?(<HomeDesign/>):(<h3>{this.state.content}</h3>)}
+        
       </div>
     );
   }

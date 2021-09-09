@@ -33,7 +33,7 @@ router.get("/", async (req, res) => {
     }
   });
 
-  router.get("/:userID", async (req, res) => {
+  router.get("/user/:userID", async (req, res) => {
     try {
       const  event = await Event.find({userID:req.params.userID});
       res.json( event);
