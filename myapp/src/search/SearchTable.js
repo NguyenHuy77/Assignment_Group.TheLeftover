@@ -1,12 +1,24 @@
 import { Button } from "react-bootstrap";
+import { Switch, Route, Link } from "react-router-dom";
 
 function SearchTable({ data }) {
   const firstRow = data[0];
+  const url = "http://localhost:8080/patients";
   const columns =
     firstRow &&
     Object.keys(firstRow).filter(
       (column) => typeof firstRow[column] !== "object"
     );
+
+  const handleDelete = (id) => {
+      fetch(url + "/" + id, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: id }),
+      });
+  };
 
   return (
     <div>
@@ -34,9 +46,8 @@ function SearchTable({ data }) {
                   return null;
                 })}
                 <td colSpan="3">
-                  {<Button className="me-2">View</Button>}
-                  {<Button className="me-2">Edit</Button>}
-                  {<Button>Delete</Button>}
+                  {<Button className="me-2"><Link to={`/patient/${item["_id"]}`}>View</Link></Button>}
+                  {<Button onClick={()=>handleDelete(item["_id"])}>Delete</Button>}
                 </td>
               </tr>
             ))}
