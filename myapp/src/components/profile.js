@@ -24,10 +24,10 @@ export function Profile() {
 
   const currentUser = authService.getCurrentUser();
 
-  let { _id } = useParams();
+  let { _id } = currentUser.id;
 
   const fetchUser = () => {
-    fetch(url + "/" + _id)
+    fetch(url + "/" + currentUser.id)
       .then((res) => res.json())
       .then((json) => setUser(json));
   };
@@ -63,8 +63,8 @@ export function Profile() {
 
   useEffect(() => {
     fetchUser();
-  });
-
+    
+  })
   return (
     <div>
       <div className="col-md-12">
@@ -80,7 +80,7 @@ export function Profile() {
                   type="text"
                   className="form-control"
                   name="name"
-                  value={currentUser.name}
+                  value={user.name}
                   onChange={(e) => setName(e.target.value)}
                 />
               </div>
@@ -90,7 +90,7 @@ export function Profile() {
                   type="text"
                   className="form-control"
                   name="nationalID"
-                  value={currentUser.nationalID}
+                  value={user.nationalID}
                   onChange={(e) => setNationalID(e.target.value)}
                 />
               </div>
@@ -100,7 +100,7 @@ export function Profile() {
                   type="text"
                   className="form-control"
                   name="phonenumber"
-                  value={currentUser.phoneNumber}
+                  value={user.phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
                 />
               </div>
@@ -110,7 +110,7 @@ export function Profile() {
                   type="text"
                   className="form-control"
                   name="workplace"
-                  value={currentUser.workPlace}
+                  value={user.workPlace}
                   onChange={(e) => setWorkPlace(e.target.value)}
                 />
               </div>
@@ -120,7 +120,7 @@ export function Profile() {
                   type="text"
                   className="form-control"
                   name="role"
-                  value={currentUser.role}
+                  value={user.role}
                   onChange={(e) => setRole(e.target.value)}
                 />
               </div>
@@ -130,7 +130,7 @@ export function Profile() {
                   type="text"
                   className="form-control"
                   name="username"
-                  value={currentUser.username}
+                  value={user.username}
                   onChange={(e) => setUserName(e.target.value)}
                 />
               </div>
@@ -140,7 +140,7 @@ export function Profile() {
                   type="text"
                   className="form-control"
                   name="email"
-                  value={currentUser.email}
+                  value={user.email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
@@ -150,7 +150,7 @@ export function Profile() {
                   type="text"
                   className="form-control"
                   name="password"
-                  value={currentUser.password}
+                  value={user.password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
