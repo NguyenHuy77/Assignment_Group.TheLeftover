@@ -33,6 +33,15 @@ router.get("/", async (req, res) => {
     }
   });
 
+  router.get("/:userID", async (req, res) => {
+    try {
+      const  event = await Event.find({userID:req.params.userID});
+      res.json( event);
+    } catch (e) {
+      res.json({ message: e });
+    }
+  });
+
   //delete event info by ID
   router.delete("/:eventID", async (req, res) => {
     try {
