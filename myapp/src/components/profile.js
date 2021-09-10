@@ -12,6 +12,7 @@ import authService from "../services/auth.service";
 const url = "http://localhost:8080/users";
 
 export function Profile() {
+  const [func,setFunc] = useState("View")
   const [user, setUser] = useState([]);
   const [name, setName] = useState();
   const [nationalID, setNationalID] = useState();
@@ -33,6 +34,7 @@ export function Profile() {
   };
 
   const changeUser = () => {
+    setFunc("Edit")
     setName(user.name);
     setNationalID(user.nationalID);
     setPhoneNumber(user.phoneNumber);
@@ -43,7 +45,7 @@ export function Profile() {
     setRole(user.role);
   };
   const save = () => {
-    fetch(url + "/" + _id, {
+    fetch(url + "/" + currentUser.id, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -69,18 +71,18 @@ export function Profile() {
     <div>
       <div className="col-md-12">
         <div className="card card-container">
-          <h1>Edit User</h1>
+          <h1>Profile</h1>
           {_id === "" ? (
             <Redirect />
           ) : (
-            <Form onSubmit={() => save()}>
+            <Form>
               <div>
                 <label htmlFor="name">Name</label>
                 <Input
                   type="text"
                   className="form-control"
                   name="name"
-                  value={user.name}
+                  value={(func==="Edit")?(name):(user.name)}
                   onChange={(e) => setName(e.target.value)}
                 />
               </div>
@@ -90,7 +92,7 @@ export function Profile() {
                   type="text"
                   className="form-control"
                   name="nationalID"
-                  value={user.nationalID}
+                  value={(func==="Edit")?(nationalID):(user.nationalID)}
                   onChange={(e) => setNationalID(e.target.value)}
                 />
               </div>
@@ -100,7 +102,7 @@ export function Profile() {
                   type="text"
                   className="form-control"
                   name="phonenumber"
-                  value={user.phoneNumber}
+                  value={(func==="Edit")?(phoneNumber):(user.phoneNumber)}
                   onChange={(e) => setPhoneNumber(e.target.value)}
                 />
               </div>
@@ -110,7 +112,7 @@ export function Profile() {
                   type="text"
                   className="form-control"
                   name="workplace"
-                  value={user.workPlace}
+                  value={(func==="Edit")?(workPlace):(user.workPlace)}
                   onChange={(e) => setWorkPlace(e.target.value)}
                 />
               </div>
@@ -120,7 +122,7 @@ export function Profile() {
                   type="text"
                   className="form-control"
                   name="role"
-                  value={user.role}
+                  value={(func==="Edit")?(role):(user.role)}
                   onChange={(e) => setRole(e.target.value)}
                 />
               </div>
@@ -130,7 +132,7 @@ export function Profile() {
                   type="text"
                   className="form-control"
                   name="username"
-                  value={user.username}
+                  value={(func==="Edit")?(username):(user.name)}
                   onChange={(e) => setUserName(e.target.value)}
                 />
               </div>
@@ -140,7 +142,7 @@ export function Profile() {
                   type="text"
                   className="form-control"
                   name="email"
-                  value={user.email}
+                  value={(func==="Edit")?(email):(user.email)}
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
@@ -150,18 +152,18 @@ export function Profile() {
                   type="text"
                   className="form-control"
                   name="password"
-                  value={user.password}
+                  value={(func==="Edit")?(password):(user.password)}
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
-              <div className="form-group">
-                <button
-                  className="btn btn-primary btn-block"
-                  onClick={() => changeUser()}
-                >
-                  Update
-                </button>
-              </div>
+              {(func==="View")?( 
+                      <Button  size="small" color="primary" onClick={() => changeUser()}>
+                      Edit
+                      </Button>)
+                      :( 
+                      <Button  size="small" color="primary" onClick={() => save()}>
+                      Save
+                </Button>)}
             </Form>
           )}
         </div>

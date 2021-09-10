@@ -69,7 +69,7 @@ export function TestTable({id}) {
       body: JSON.stringify({
         testResults:newResults
       }),
-    }).then();
+    }).then((data) => fetchPatient());
   } else {
     fetch(url + "/" + _id+ "/" +idTest, {
       method: "PATCH",
@@ -171,7 +171,7 @@ export function TestTable({id}) {
           </div>
           {(idTest ==='') ? (
             <Button  color="primary" onClick={() => {
-              setNewResults(testResults)
+              setNewResults(testResults);
               setNewResults(pre =>[...pre,testDetail]);
               save();
               }}>

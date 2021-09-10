@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Switch, Route, Link } from "react-router-dom";
-import Button from "@material-ui/core/Button";
+import { Button } from "react-bootstrap";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import { useParams } from "react-router-dom";
@@ -109,7 +109,7 @@ export function PatientCreate (){
                           onChange={(e) => setProcession(e.target.value)}
                         />
                     <Button  size="small" color="primary" onClick={() => createPatient()}>
-                          <Link to={"/patient"}>Create</Link>
+                          <Link style={{ color: '#FFF' }}  to={"/patient"}>Create</Link>
                     </Button>
                     </Form>
                 </div>
