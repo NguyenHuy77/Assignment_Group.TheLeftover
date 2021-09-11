@@ -7,7 +7,7 @@ import Input from "react-validation/build/input";
 import { useParams } from "react-router-dom";
 import {TestTable } from "./testTable";
 
-const url = "http://localhost:8080/patients";
+const url = "https://assignment-091121.herokuapp.com/patients";
 
 
 export function PatientDetail (){

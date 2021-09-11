@@ -5,7 +5,7 @@ import "../css/style.css"
 import { useParams } from "react-router-dom";
 
 export function UserSchedule(){
-    const url = "http://localhost:8080/events/user";
+    const url = "https://assignment-091121.herokuapp.com/user";
     const [schedule,setSchedule]=useState([])
     let {id}=useParams()
 
