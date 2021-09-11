@@ -1,8 +1,8 @@
 const buildCal = (curDay) => {
-  const startDay = curDay.clone().startOf("month").startOf("week");
-  const endDay = curDay.clone().endOf("month").endOf("week");
-  const end = endDay.clone().subtract(1, "day");
-  let day = startDay.clone().subtract(1, "day");
+  const startDay = curDay.startOf("month").startOf("week");
+  const endDay = curDay.endOf("month").endOf("week");
+  const end = endDay.subtract(1, "day");
+  let day = startDay.subtract(1, "day");
 
   const calendar = [[]];
   let count = 0;
