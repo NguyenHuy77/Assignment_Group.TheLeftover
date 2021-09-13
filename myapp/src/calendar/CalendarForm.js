@@ -24,7 +24,7 @@ function CalendarForm({ event, onClose }) {
       date: dateFocus.hour(hourSelect).minute(minuteSelect).format(),
     };
 
-    const res = await fetch(!event ? endPoint : endPoint + `/${event.id}`, {
+    const res = await fetch(!event ? endPoint : endPoint + `/${event._id}`, {
       method: !event ? "POST" : "PATCH",
       body: JSON.stringify(data),
       headers: {
@@ -32,8 +32,7 @@ function CalendarForm({ event, onClose }) {
       },
     });
 
-    if (res.status === 500 || res.status === 404)
-      return setError("Could not add event");
+    if (!res.ok) setError("Could not add event");
 
     setUserSelect("");
     setRoomSelect("");
