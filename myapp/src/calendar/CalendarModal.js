@@ -9,18 +9,20 @@ function CalendarModal({ refresh }) {
   const { state, update } = useCalendar();
   const { modalShow, eventsFocus } = state;
   const { setModalShow } = update;
+  const [error, setError] = useState("");
 
   const [toggleForm, setToggleForm] = useState(false);
   const [toggleDelete, setToggleDelete] = useState(false);
   const [eventEdit, setEventEdit] = useState(null);
 
+
   const endPoint = "http://assignment-091121.herokuapp.com/events/";
 
+
   const handleClick = (event) => {
+    setError("");
     if (toggleDelete) {
       handleDelete(event._id);
-      refresh();
-      modalOnClose();
     } else {
       setToggleForm(true);
       setEventEdit(event);
@@ -28,14 +30,21 @@ function CalendarModal({ refresh }) {
   };
 
   const handleAdd = () => {
+    setError("");
+    setToggleDelete(false);
     setEventEdit(null);
     setToggleForm(!toggleForm);
   };
 
   const handleDelete = async (id) => {
-    await fetch(endPoint + id, {
+    const res = await fetch(endPoint + id, {
       method: "DELETE",
     });
+
+    if (!res.ok) return setError("Cannot delete appointment");
+    setError("");
+    refresh();
+    modalOnClose();
   };
 
   const modalOnClose = () => {
@@ -79,6 +88,7 @@ function CalendarModal({ refresh }) {
       </Modal.Header>
 
       <Modal.Body className="modal-body">
+        {error && <p className="text-danger">{error}</p>}
         {!toggleForm && eventsFocus.length === 0 && <p>No appointment yet</p>}
         {!toggleForm && eventsFocus.length > 0 && (
           <ListGroup className="overflow-hidden">

@@ -31,7 +31,7 @@ function SearchTable({ data }) {
             {columns &&
               columns.map((column, i) => (
                 <th key={i} scope="col">
-                  {column.toUpperCase()}
+                  {column.toLowerCase()}
                 </th>
               ))}
           </tr>
