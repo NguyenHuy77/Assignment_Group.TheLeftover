@@ -14,7 +14,7 @@ function CalendarModal({ refresh }) {
   const [toggleDelete, setToggleDelete] = useState(false);
   const [eventEdit, setEventEdit] = useState(null);
 
-  const endPoint = "http://localhost:8080/events/";
+  const endPoint = "http://assignment-091121.herokuapp.com/events/";
 
   const handleClick = (event) => {
     if (toggleDelete) {

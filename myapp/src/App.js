@@ -6,7 +6,7 @@ import "./App.css";
 import AuthService from "./services/auth.service";
 
 import Login from "./components/login";
-import Register from "./components/register";
+import Register from "./components/adminRegister";
 import Home from "./components/home";
 
 import AuthVerify from "./authorize-verify";

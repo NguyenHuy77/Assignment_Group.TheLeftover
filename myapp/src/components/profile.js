@@ -9,7 +9,7 @@ import Register from "../components/adminRegister";
 import { Redirect } from "react-router-dom";
 import authService from "../services/auth.service";
 
-const url = "https://assignment-091121.herokuapp.com/users";
+const url = "https://localhost:8080/users";
 
 export function Profile() {
   const [func,setFunc] = useState("View")
@@ -132,7 +132,7 @@ export function Profile() {
                   type="text"
                   className="form-control"
                   name="username"
-                  value={(func==="Edit")?(username):(user.name)}
+                  value={(func==="Edit")?(username):(user.username)}
                   onChange={(e) => setUserName(e.target.value)}
                 />
               </div>
