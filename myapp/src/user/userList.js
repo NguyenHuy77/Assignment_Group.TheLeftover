@@ -304,11 +304,6 @@ export default function UserList() {
           </TableBody>
         </Table>
       </TableContainer>
-      <button
-          color="blue"
-      >
-        <Link to="/calendar">Calendar</Link>            
-      </button>
     </div>
   );
 }
