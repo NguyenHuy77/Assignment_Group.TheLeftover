@@ -13,7 +13,7 @@ function CalendarForm({ event, onClose }) {
   const [minuteSelect, setMinuteSelect] = useState(0);
   const [error, setError] = useState(false);
 
-  const endPoint = "https://assignment-091121.herokuapp.com/events";
+  const endPoint = "hhttp://localhost:8080/events";
 
   const formOnSubmit = async () => {
     if (userSelect === "" || roomSelect === "")

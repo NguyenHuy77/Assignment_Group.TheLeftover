@@ -3,7 +3,7 @@ import { Switch, Route, Link } from "react-router-dom";
 
 function SearchTable({ data }) {
   const firstRow = data[0];
-  const url = "https://assignment-091121.herokuapp.com/patients";
+  const url = "hhttp://localhost:8080/patients";
   const columns =
     firstRow &&
     Object.keys(firstRow).filter(

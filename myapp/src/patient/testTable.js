@@ -11,7 +11,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 
-const url = "https://assignment-091121.herokuapp.com/patients";
+const url = "hhttp://localhost:8080/patients";
 export function TestTable({id}) {
    let _id= id;
 

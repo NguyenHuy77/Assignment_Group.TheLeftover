@@ -7,7 +7,7 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import { useParams } from "react-router-dom";
 
-const url = "https://assignment-091121.herokuapp.com/patients";
+const url = "hhttp://localhost:8080/patients";
 export function PatientCreate (){
     const [name,setName] = useState();
     const [age,setAge] = useState();

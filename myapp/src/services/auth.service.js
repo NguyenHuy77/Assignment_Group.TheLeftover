@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://assignment-091121.herokuapp.com/api/auth/";
+const API_URL = "hhttp://localhost:8080/api/auth/";
 
 class AuthService {
   login(username, password) {
@@ -22,24 +22,9 @@ class AuthService {
     localStorage.removeItem("user");
   }
 
-  register(
-    name,
-    nationalID,
-    phoneNumber,
-    workPlace,
-    role,
-    username,
-    email,
-    password
-  ) {
+  register(username, password) {
     return axios.post(API_URL + "signup", {
-      name,
-      nationalID,
-      phoneNumber,
-      workPlace,
-      role,
       username,
-      email,
       password,
     });
   }

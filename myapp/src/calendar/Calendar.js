@@ -26,7 +26,7 @@ function Calendar() {
     "Saturday",
   ];
 
-  const endPoint = "https://assignment-091121.herokuapp.com/";
+  const endPoint = "hhttp://localhost:8080/";
 
   const getEvents = async () => {
     const res = await fetch(endPoint + "events");
