@@ -13,7 +13,7 @@ function Search() {
   const [query, setQuery] = useState("");
   const columnsToSearch = ["_id", "patientName", "nationalID"];
   const columnsToFilter = ["patientName", "symptoms", "age"];
-  const endPoint = "hhttp://localhost:8080/patients";
+  const endPoint = "http://localhost:8080/patients";
 
   // fetch data
   const getData = () => {
