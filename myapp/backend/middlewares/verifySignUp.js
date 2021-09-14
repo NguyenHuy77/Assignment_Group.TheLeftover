@@ -17,8 +17,7 @@ const checkDuplicateUsername = (req, res, next) => {
       return;
     }
 
-    // Email
-   
+    next();
   });
 };
 const checkRolesExisted = (req, res, next) => {
