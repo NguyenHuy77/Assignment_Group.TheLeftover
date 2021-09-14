@@ -10,7 +10,7 @@ import { Redirect } from "react-router-dom";
 import authService from "../services/auth.service";
 
 
-const url = "https://assignment-091121.herokuapp.com/users";
+const url = "/users";
 
 
 export function Profile() {
