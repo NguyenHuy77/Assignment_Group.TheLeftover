@@ -26,7 +26,7 @@ function Calendar() {
     "Saturday",
   ];
 
-  const endPoint = "http://localhost:8080/";
+  const endPoint = "/";
 
   const getEvents = async () => {
     const res = await fetch(endPoint + "events");

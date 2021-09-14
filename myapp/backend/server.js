@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const path = require('path')
 
 const app = express();
 
@@ -19,10 +20,10 @@ app.use(express.urlencoded({ extended: true }));
 const db = require("./models");
 const Role = db.role;
 
-const path =
+const url =
   "mongodb+srv://khoanguyenkne:Kn03122000@cluster0.wixqi.mongodb.net/api_covid?retryWrites=true&w=majority";
 db.mongoose
-  .connect(path, {
+  .connect(url, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
@@ -36,11 +37,6 @@ db.mongoose
     console.error("Connection error", err);
     process.exit();
   });
-
-// simple route
-app.get("/", (req, res) => {
-  res.json({ message: "Welcome to Covid management application." });
-});
 
 // routes for auth, user and users' info
 require("./routes/auth.routes")(app);
@@ -61,7 +57,12 @@ app.use("/rooms", roomRoute);
 app.use("/patients", patientRoute);
 app.use("/events", eventRoute);
 app.use("/users",userRoute)
-
+// Have Node serve the files for our built React app
+app.use(express.static(path.resolve(__dirname, '../build')));
+// All other GET requests not handled before will return our React app
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../build', 'index.html'));
+ });
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {

@@ -13,7 +13,7 @@ function CalendarForm({ event, onClose }) {
   const [minuteSelect, setMinuteSelect] = useState(0);
   const [error, setError] = useState(false);
 
-  const endPoint = "http://localhost:8080/events";
+  const endPoint = "/events";
 
   const formOnSubmit = async () => {
     if (userSelect === "" || roomSelect === "")
