@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "https://assignment-091121.herokuapp.com/api/auth/";
+const API_URL = "/api/auth/";
 
 class AuthService {
   login(username, password) {
@@ -26,6 +26,8 @@ class AuthService {
     username,
     password
   ) {
+
+  register(username, password) {
     return axios.post(API_URL + "signup", {
       username,
       password,

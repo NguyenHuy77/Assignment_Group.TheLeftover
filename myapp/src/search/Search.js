@@ -13,7 +13,7 @@ function Search() {
   const [query, setQuery] = useState("");
   const columnsToSearch = ["_id", "patientName", "nationalID"];
   const columnsToFilter = ["patientName", "symptoms", "age"];
-  const endPoint = "https://assignment-091121.herokuapp.com/patients";
+  const endPoint = "/patients";
 
   // fetch data
   const getData = () => {

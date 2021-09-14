@@ -15,7 +15,7 @@ import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import Register from "../components/adminRegister";
 
-const url = "https://assignment-091121.herokuapp.com/users";
+const url = "/users";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
