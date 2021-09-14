@@ -61,7 +61,7 @@ class App extends Component {
     const { currentUser } = this.state;
 
     return (
-      <div>
+      <div className="body">
         <nav className="navbar navbar-expand navbar-dark bg-dark">
           <Link to={"/"} className="navbar-brand">
             Covid Management
@@ -133,7 +133,7 @@ class App extends Component {
           )}
         </nav>
 
-        <div className="container mt-3">
+        <div className="container mt-3 main">
           <Switch>
             <Route exact path={["/", "/home"]} component={Home} />
             <Route exact path="/login" component={Login} />

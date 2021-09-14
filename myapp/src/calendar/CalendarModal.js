@@ -16,7 +16,7 @@ function CalendarModal({ refresh }) {
   const [eventEdit, setEventEdit] = useState(null);
 
 
-  const endPoint = "http://assignment-091121.herokuapp.com/events/";
+  const endPoint = "/events/";
 
 
   const handleClick = (event) => {

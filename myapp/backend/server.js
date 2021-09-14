@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const path = require('path')
+const path = require("path");
 
 const app = express();
 
@@ -27,7 +27,7 @@ db.mongoose
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
-    useFindAndModify: false
+    useFindAndModify: false,
   })
   .then(() => {
     console.log("Successfully connect to MongoDB.");
@@ -51,18 +51,18 @@ require("./routes/info.routes")(app);
 const roomRoute = require("./room/roomRoute");
 const patientRoute = require("./patient/patientRoute");
 const eventRoute = require("./event/eventRoute");
-const userRoute = require("./user/userRoute")
+const userRoute = require("./user/userRoute");
 
 app.use("/rooms", roomRoute);
 app.use("/patients", patientRoute);
 app.use("/events", eventRoute);
-app.use("/users",userRoute)
+app.use("/users", userRoute);
 // Have Node serve the files for our built React app
-app.use(express.static(path.resolve(__dirname, '../build')));
+app.use(express.static(path.resolve(__dirname, "../build")));
 // All other GET requests not handled before will return our React app
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '../build', 'index.html'));
- });
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "../build", "index.html"));
+});
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
