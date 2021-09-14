@@ -16,11 +16,12 @@ import RoomList from "./room/roomList";
 import PatientList from "./patient/patientList";
 import { PatientDetail } from "./patient/patientDetail";
 import { PatientCreate } from "./patient/patientCreate";
-import Footer from "./footer";
 import User from "./user/userList";
-import Calendar from "./calendar/index";
+import Calendar from "./calendar";
 import { Profile } from "./components/profile";
 import { UserSchedule } from "./user/userSchedule";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
 
 class App extends Component {
   constructor(props) {
@@ -62,76 +63,7 @@ class App extends Component {
 
     return (
       <div className="body">
-        <nav className="navbar navbar-expand navbar-dark bg-dark">
-          <Link to={"/"} className="navbar-brand">
-            Covid Management
-          </Link>
-          <div className="navbar-nav mr-auto">
-            <li className="nav-item">
-              <Link to={"/home"} className="nav-link">
-                Home
-              </Link>
-            </li>
-          </div>
-
-          {currentUser ? (
-            <div className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <Link to={"/profile"} className="nav-link">
-                  Profile
-                </Link>
-              </li>
-              {currentUser.username === "admin" && (
-                <li className="nav-item">
-                <Link to={"/user"} className="nav-link">
-                  User
-                </Link>
-                </li>
-              )}
-              {currentUser.username === "admin" && (
-                <li className="nav-item">
-                  <Link to={"/room"} className="nav-link">
-                    Room
-                  </Link>
-                </li>
-              )}
-              {currentUser.username === "admin" ? (
-                <li className="nav-item">
-                  <Link to={"/calendar"} className="nav-link">
-                    Calendar
-                  </Link>
-                </li>
-              ):(<li className="nav-item">
-                  <Link to={`/schedule/${currentUser.id}`} className="nav-link">
-                   User Schedule
-                  </Link>
-                </li>)}
-              <li className="nav-item">
-                <Link to={"/patient"} className="nav-link">
-                  Patient
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link to={"/patient/create"} className="nav-link">
-                  Creat Patient Information
-                </Link>
-              </li>
-              <li className="nav-item">
-                <a href="/login" className="nav-link" onClick={this.logOut}>
-                  LogOut
-                </a>
-              </li>
-            </div>
-          ) : (
-            <div className="navbar-nav ml-auto">
-              <li className="nav-item">
-                <Link to={"/login"} className="nav-link">
-                  Login
-                </Link>
-              </li>
-            </div>
-          )}
-        </nav>
+        <Header user={currentUser} logOut={this.logOut} />
 
         <div className="container mt-3 main">
           <Switch>
@@ -150,7 +82,7 @@ class App extends Component {
             </Route>
             <Route path={`/schedule/:id`}>
               {" "}
-              <UserSchedule/>
+              <UserSchedule />
             </Route>
           </Switch>
         </div>
