@@ -9,7 +9,9 @@ import Register from "../components/adminRegister";
 import { Redirect } from "react-router-dom";
 import authService from "../services/auth.service";
 
+
 const url = "/users";
+
 
 export function Profile() {
   const [func,setFunc] = useState("View")
