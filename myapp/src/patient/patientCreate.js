@@ -8,6 +8,7 @@ import Input from "react-validation/build/input";
 import { useParams } from "react-router-dom";
 
 const url = "/patients";
+const url1="/rooms"
 export function PatientCreate (){
     const [name,setName] = useState();
     const [age,setAge] = useState();
@@ -17,7 +18,9 @@ export function PatientCreate (){
     const [symptoms,setSymptoms] =  useState();
     const [healthStatus,setHealthStatus] =  useState();
     const [procession,setProcession] =  useState();
-
+    const [relationNumber,setRelationNumber] = useState();
+    const [rooms,setRooms] = useState([]);
+    const [room,setRoom] = useState([]);
 
     const createPatient = () => {
           fetch(url, {
@@ -30,14 +33,22 @@ export function PatientCreate (){
                 age:age,
                 nationalID:nationalID,
                 address:address,
+                relationNumber : relationNumber,
                 day:day,
                 symptoms:symptoms,
+                roomNumber:room,
                 healthStatus:healthStatus,
                 procession:procession
             }),
           })
       };
+    const fetchRoom = () =>{
+      fetch(url1)
+      .then(res => res.json())
+      .then(json => setRooms(json))
+    }
 
+    useEffect(()=>{fetchRoom()},[])
     return(
         <div>
              <div className="col-md-12">
@@ -76,6 +87,14 @@ export function PatientCreate (){
                           value={address}
                           onChange={(e) => setAddress(e.target.value)}
                         />
+                        <label htmlFor="age">Relation Number</label>
+                        <Input
+                          type="text"
+                          className="form-control"
+                          name="relationNumber"
+                          value={relationNumber}
+                          onChange={(e) => setRelationNumber(e.target.value)}
+                        />
                         <label htmlFor="age">Day</label>
                         <Input
                           type="text"
@@ -84,14 +103,31 @@ export function PatientCreate (){
                           value={day}
                           onChange={(e) => setDay(e.target.value)}
                         />
-                        <label htmlFor="age">Symptom</label>
-                        <Input
-                          type="text"
-                          className="form-control"
-                          name="symptoms"
-                          value={symptoms}
-                          onChange={(e) => setSymptoms(e.target.value)}
-                        />
+                        <div><label htmlFor="age">Symptom</label>
+                        <select
+                            className="form-control"
+                            name="symptoms"
+                            value={symptoms}
+                            onChange={(e) => setSymptoms(e.target.value)}
+                        >
+                          <option>Fever, Cough, Difficulty breathing,...</option>
+                          <option>No Symptoms</option>
+                          <option>Good</option>
+                        </select>
+                        <label htmlFor="">Room</label>
+                        <select
+                            className="form-control"
+                            name="room"
+                            value={room}
+                            onChange={(e) => setRoom(e.target.value)}
+                        >
+                        {rooms.map((room)=>(
+                          ((room.available>0)&&(room.romType===symptoms))&&(
+                            <option>{room.roomNumber}</option>
+                          )
+                        ))}
+                        </select>
+                        </div>
                         <label htmlFor="age">Health Status</label>
                         <Input
                           type="text"

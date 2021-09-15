@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 import {TestTable } from "./testTable";
 
 const url = "/patients";
-
+const url1="/rooms"
 
 export function PatientDetail (){
     const [patient, setPatient] = useState([]);
@@ -22,6 +22,9 @@ export function PatientDetail (){
     const [procession,setProcession] =  useState();
     const [relationNumber,setRelationNumber] = useState();
     const [role,setRole]=useState("View")
+    const [rooms,setRooms] = useState([]);
+    const [room,setRoom] = useState([]);
+
 
     let {id} = useParams()
 
@@ -42,6 +45,7 @@ export function PatientDetail (){
         setHealthStatus(patient.healthStatus);
         setProcession(patient.procession)
         setRelationNumber(patient.relationNumber)
+        setRoom(patient.roomNumber)
     }
     const save = () => {
           fetch(url + "/" + id, {
@@ -54,14 +58,22 @@ export function PatientDetail (){
               age:age,
               nationalID:nationalID,
               address:address,
+              relationNumber : relationNumber,
               day:day,
               symptoms:symptoms,
+              roomNumber:room,
               healthStatus:healthStatus,
               procession:procession
             }),
           }).then((data) => fetchPatient());
       };
-
+    const fetchRoom = () =>{
+        fetch(url1)
+        .then(res => res.json())
+        .then(json => setRooms(json))
+      }
+  
+    useEffect(()=>{fetchRoom()},[])
     useEffect(() => {
       fetchPatient()})
     return(
@@ -102,6 +114,14 @@ export function PatientDetail (){
                           value={(role==="Edit")?(address):(patient.address)}
                           onChange={(e) => setAddress(e.target.value)}
                         />
+                        <label htmlFor="age">Relation Number</label>
+                        <Input
+                          type="text"
+                          className="form-control"
+                          name="relationNumber"
+                          value={relationNumber}
+                          onChange={(e) => setRelationNumber(e.target.value)}
+                        />
                         <label htmlFor="age">Day</label>
                         <Input
                           type="text"
@@ -110,14 +130,31 @@ export function PatientDetail (){
                           value={(role==="Edit")?(day):(patient.day)}
                           onChange={(e) => setDay(e.target.value)}
                         />
-                        <label htmlFor="age">Symptom</label>
-                        <Input
-                          type="text"
-                          className="form-control"
-                          name="symptoms"
-                          value={(role==="Edit")?(symptoms):(patient.symptoms)}
-                          onChange={(e) => setSymptoms(e.target.value)}
-                        />
+                        <div><label htmlFor="age">Symptom</label>
+                        <select
+                            className="form-control"
+                            name="symptoms"
+                            value={symptoms}
+                            onChange={(e) => setSymptoms(e.target.value)}
+                        >
+                          <option>Fever, Cough, Difficulty breathing,...</option>
+                          <option>No Symptoms</option>
+                          <option>Good</option>
+                        </select>
+                        </div>
+                        <label htmlFor="">Room</label>
+                        <select
+                            className="form-control"
+                            name="room"
+                            value={room}
+                            onChange={(e) => setRoom(e.target.value)}
+                        >
+                        {rooms.map((room)=>(
+                          ((room.available>0)&&(room.romType===symptoms))&&(
+                            <option>{room.roomNumber}</option>
+                          )
+                        ))}
+                        </select>
                         <label htmlFor="age">Health Status</label>
                         <Input
                           type="text"
