@@ -110,7 +110,7 @@ function CalendarForm({ event, onClose }) {
       <Form.Label>Choose time</Form.Label>
       <Row className="g-2">
         <Col md>
-          <FloatingLabel controlId="floatingSelectGrid" label="Hour">
+          <FloatingLabel controlId="floatingHour" label="Hour">
             <Form.Select
               onChange={(e) => {
                 if (error) setError(false);
@@ -137,7 +137,7 @@ function CalendarForm({ event, onClose }) {
           </FloatingLabel>
         </Col>
         <Col md>
-          <FloatingLabel controlId="floatingSelectGrid" label="Minute">
+          <FloatingLabel controlId="floatingMinute" label="Minute">
             <Form.Select
               onChange={(e) => {
                 if (error) setError(false);

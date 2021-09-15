@@ -27,7 +27,7 @@ function SearchTable({ data }) {
       </p>
       <table
         className="table table-striped table-lg align-middle border"
-        style={{ fontSize: "0.85rem" }}
+        style={{ fontSize: "0.88rem" }}
       >
         <thead className="table-dark">
           <tr>
