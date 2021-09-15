@@ -24,28 +24,26 @@ function Header({ user, logOut }) {
                       Profile
                     </Link>
                   </li>
-
-                  <li className="nav-item">
-                    <Link
-                      className="nav-link scrollto"
-                      to={`/schedule/${user._id}`}
-                    >
+                  {(user.username==="admin")?(
+                    <li className="nav-item">
+                    <Link className="nav-link scrollto" to={"/calendar"}>
+                      Calendar
+                    </Link>
+                  </li>):(
+                    <li className="nav-item">
+                    <Link className="nav-link scrollto" to={`/schedule/${user._id}`}>
                       Schedule
                     </Link>
-                  </li>
-                  <li className="nav-item">
+                  </li>)}
+                  {(user.username==="admin")&&( 
+                    <li className="nav-item">
                     <Link className="nav-link scrollto" to={"/user"}>
                       Users
                     </Link>
-                  </li>
+                  </li>)}
                   <li className="nav-item">
                     <Link className="nav-link scrollto" to={"/room"}>
                       Rooms
-                    </Link>
-                  </li>
-                  <li className="nav-item">
-                    <Link className="nav-link scrollto" to={"/calendar"}>
-                      Calendar
                     </Link>
                   </li>
                   <li className="dropdown">

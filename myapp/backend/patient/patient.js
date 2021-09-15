@@ -5,10 +5,8 @@ const patientSchema= mongoose.Schema({
     age: {type: Number, require: true},
     nationalID: {type: String, require: true},
     address: {type: String, require: true},
-    relationNumber:[{
-        personalNumber:{type: String},
-        relative:{type: String}
-    }],
+    relationNumber:{type: String},
+    roomNumber:{type: String, require: true},
     day:{type: Number, require: true, min:1},
     symptoms:{type: String, require: true},
     testResults:[{
