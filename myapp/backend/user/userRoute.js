@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/user.model.js");
 
+var bcrypt = require("bcryptjs");
+
 //Get all users information
 router.get("/", async (req, res) => {
   try {
@@ -14,7 +16,16 @@ router.get("/", async (req, res) => {
 
 //Create the new user data
 router.post("/", async (req, res) => {
-  const user = new User(req.body);
+  const user = new User({
+    name: req.body.name,
+    email:req.body.email,
+    nationalID: req.body.nationalID,
+    phoneNumber: req.body.phoneNumber,
+    workPlace: req.body.workPlace,
+    username: req.body.username,
+    password: bcrypt.hashSync(req.body.password, 8),
+    role: req.body.role,
+  });
   try {
     await user.save();
     res.send(user);
@@ -36,7 +47,16 @@ router.get("/:userID", async (req, res) => {
 
 router.patch('/:userID', async (req,res) => {
   try {
-      await User.findByIdAndUpdate(req.params.userID, req.body);
+      await User.findByIdAndUpdate(req.params.userID, {
+        name: req.body.name,
+        email:req.body.email,
+        nationalID: req.body.nationalID,
+        phoneNumber: req.body.phoneNumber,
+        workPlace: req.body.workPlace,
+        username: req.body.username,
+        password: bcrypt.hashSync(req.body.password, 8),
+      role: req.body.role,
+      });
       await User.save();
       res.send(User);
     } catch (error) {
