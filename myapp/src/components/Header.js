@@ -41,11 +41,13 @@ function Header({ user, logOut }) {
                       Users
                     </Link>
                   </li>)}
-                  <li className="nav-item">
+                  {(user.username==="admin")&&( 
+                    <li className="nav-item">
                     <Link className="nav-link scrollto" to={"/room"}>
                       Rooms
                     </Link>
-                  </li>
+                  </li>)}
+                 
                   <li className="dropdown">
                     <a to="#">
                       <span>Patients</span>{" "}
