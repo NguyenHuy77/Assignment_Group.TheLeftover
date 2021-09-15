@@ -3,7 +3,7 @@ label {
   margin-top: 10px;
 }
 
-.card-container.card {
+.card-container, .card {
   max-width: 350px !important;
   padding: 40px 40px;
 }
@@ -38,7 +38,7 @@ label {
 .body {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 95vh;
 }
 
 .main {

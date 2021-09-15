@@ -62,29 +62,30 @@ class App extends Component {
     const { currentUser } = this.state;
 
     return (
-      <div className="body">
-        <Header user={currentUser} logOut={this.logOut} />
-
-        <div className="container mt-3 main">
-          <Switch>
-            <Route exact path={["/", "/home"]} component={Home} />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/register" component={Register} />
-            <Route exact path="/profile" component={Profile} />
-            <Route exact path="/user" component={User} />
-            <Route exact path="/calendar" component={Calendar} />
-            <Route exact path="/room" component={RoomList} />
-            <Route exact path="/patient" component={PatientList} />
-            <Route exact path="/patient/create" component={PatientCreate} />
-            <Route path={`/patient/:id`}>
-              {" "}
-              <PatientDetail />
-            </Route>
-            <Route path={`/schedule/:id`}>
-              {" "}
-              <UserSchedule />
-            </Route>
-          </Switch>
+      <div>
+        <div className="body">
+          <Header user={currentUser} logOut={this.logOut} />
+          <div className="container mt-3 main">
+            <Switch>
+              <Route exact path={["/", "/home"]} component={Home} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/register" component={Register} />
+              <Route exact path="/profile" component={Profile} />
+              <Route exact path="/user" component={User} />
+              <Route exact path="/calendar" component={Calendar} />
+              <Route exact path="/room" component={RoomList} />
+              <Route exact path="/patient" component={PatientList} />
+              <Route exact path="/patient/create" component={PatientCreate} />
+              <Route path={`/patient/:id`}>
+                {" "}
+                <PatientDetail />
+              </Route>
+              <Route path={`/schedule/:id`}>
+                {" "}
+                <UserSchedule />
+              </Route>
+            </Switch>
+          </div>
         </div>
 
         <AuthVerify logOut={this.logOut} />

@@ -1,5 +1,5 @@
 import { Button } from "react-bootstrap";
-import { Switch, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function SearchTable({ data }) {
   const firstRow = data[0];
@@ -11,13 +11,13 @@ function SearchTable({ data }) {
     );
 
   const handleDelete = (id) => {
-      fetch(url + "/" + id, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id: id }),
-      });
+    fetch(url + "/" + id, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ id: id }),
+    });
   };
 
   return (
@@ -25,15 +25,19 @@ function SearchTable({ data }) {
       <p className="mb-1 mt-3">
         Showing {data.length} of {data.length} results
       </p>
-      <table className="table table-hover table-bordered">
-        <thead>
+      <table
+        className="table table-striped table-lg align-middle border"
+        style={{ fontSize: "0.85rem" }}
+      >
+        <thead className="table-dark">
           <tr>
             {columns &&
               columns.map((column, i) => (
-                <th key={i} scope="col">
+                <th key={i} scope="col" className="fw-normal py-3">
                   {column.toLowerCase()}
                 </th>
               ))}
+            <th colSpan="2"></th>
           </tr>
         </thead>
         <tbody>
@@ -45,9 +49,26 @@ function SearchTable({ data }) {
                     return <td key={j}>{item[column]}</td>;
                   return null;
                 })}
-                <td colSpan="3">
-                  {<Button className="me-2"><Link to={`/patient/${item["_id"]}`}>View</Link></Button>}
-                  {<Button onClick={()=>handleDelete(item["_id"])}>Delete</Button>}
+                <td colSpan="2">
+                  {
+                    <Button className="me-2" variant="muted">
+                      <Link
+                        to={`/patient/${item["_id"]}`}
+                        className="text-primary btn-sm"
+                      >
+                        View
+                      </Link>
+                    </Button>
+                  }
+                  {
+                    <Button
+                      variant="muted"
+                      className="text-primary btn-sm"
+                      onClick={() => handleDelete(item["_id"])}
+                    >
+                      Delete
+                    </Button>
+                  }
                 </td>
               </tr>
             ))}
