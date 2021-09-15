@@ -14,16 +14,11 @@ router.get('/', async (req,res)=>{
 
 //Create new room data
 router.post('/',async (req,res)=>{
-    const room = new Room({
-        roomNumber : req.body.roomNumber,
-        roomType : req.body.roomType,
-        bedCounts :req.body.bedCounts,
-        available : req.body.available
-    });
+    const room = new Room(req.body);
 
     try{
-        const savedRoom = await room.save();
-        res.json(savedRoom);
+        await room.save();
+        res.json(room);
     }catch(e){
         res.json({message: e});
     }
@@ -60,6 +55,28 @@ router.patch('/:roomID', async (req,res) => {
       }
 })
 
+//Get room by  RoomNumber
+router.get('/roomNumber/:roomNumber', async (req,res)=>{
+    try{
+        const room = await Room.find({roomNumber:req.params.roomNumber});
+        res.json(room)
+    }catch(e){
+        res.json({message: e});
+    }
+});
 
+//Update room by  RoomNumber
+
+router.patch('/roomNumber/:roomNumber', async (req,res) => {
+    try{
+        await Room.findOneAndUpdate(
+            {roomNumber:req.params.roomNumber}, 
+            { $set: {"available" :req.body.available}});
+        await Room.save();
+        res.send(Room);
+    }catch(e){
+        res.json({message: e});
+    }
+})
 
 module.exports = router;
