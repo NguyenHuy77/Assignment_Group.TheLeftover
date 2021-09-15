@@ -1,5 +1,4 @@
 const express = require('express');
-const room = require('./room');
 const router= express.Router();
 const Room=require('./room');
 
@@ -18,7 +17,8 @@ router.post('/',async (req,res)=>{
     const room = new Room({
         roomNumber : req.body.roomNumber,
         roomType : req.body.roomType,
-        bedCounts :req.body.bedCounts
+        bedCounts :req.body.bedCounts,
+        available : req.body.available
     });
 
     try{
@@ -54,7 +54,7 @@ router.patch('/:roomID', async (req,res) => {
     try {
         await Room.findByIdAndUpdate(req.params.roomID, req.body);
         await Room.save();
-        res.send(room);
+        res.send(Room);
       } catch (error) {
         res.status(500).send(error);
       }
