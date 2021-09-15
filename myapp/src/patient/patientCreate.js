@@ -143,7 +143,7 @@ export function PatientCreate() {
                 {rooms.map(
                   (room) =>
                     room.available > 0 &&
-                    room.romType === symptoms && (
+                    room.roomType === symptoms && (
                       <option>{room.roomNumber}</option>
                     )
                 )}
