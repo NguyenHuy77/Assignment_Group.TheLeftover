@@ -91,7 +91,7 @@ export default function RoomList() {
           roomNumber: roomNumber,
           roomType: roomType,
           bedCounts: bedCounts,
-          available: available,
+          available: available
         }),
       }).then((data) => fetchRoom());
     } else {
@@ -104,7 +104,7 @@ export default function RoomList() {
           roomNumber: roomNumber,
           roomType: roomType,
           bedCounts: bedCounts,
-          available: available,
+          available: available
         }),
       }).then((data) => fetchRoom());
     }

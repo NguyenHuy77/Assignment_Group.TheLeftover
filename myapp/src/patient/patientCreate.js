@@ -20,7 +20,9 @@ export function PatientCreate() {
   const [procession, setProcession] = useState();
   const [relationNumber, setRelationNumber] = useState();
   const [rooms, setRooms] = useState([]);
-  const [room, setRoom] = useState([]);
+  const [room, setRoom] = useState("");
+  const [change,setChange] =useState([])
+  const [available,setAvailable] =useState()
   const [error, setError] = useState(false);
   const [fetching, setFetching] = useState(false);
 
@@ -55,10 +57,29 @@ export function PatientCreate() {
       .then((res) => res.json())
       .then((json) => setRooms(json));
   };
+  const fetchChange = (rNumber) => {
+    fetch(url1+"/roomNumber"+rNumber)
+      .then((res) => res.json())
+      .then((json) => setChange(json));
+  }
+  const changeAvailable = (rNumber)=>{
+     fetch(url1+"/roomNumber"+rNumber, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        available: change.available-1
+      }),
+    });
+  }
 
   useEffect(() => {
     fetchRoom();
   }, []);
+  useEffect(() => {
+    if(room!=="") {fetchChange(room);}
+  });
   return (
     <div>
       <div className="col-md-12">
@@ -170,7 +191,7 @@ export function PatientCreate() {
             <Button
               size="small"
               color="primary"
-              onClick={() => createPatient()}
+              onClick={() => {changeAvailable(room);createPatient()}}
             >
               Create
             </Button>
