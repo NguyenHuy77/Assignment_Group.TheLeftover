@@ -14,7 +14,8 @@ const roomSchema= mongoose.Schema({
         require: true
     },
     available:{
-        type : Number
+        type : Number,
+        require: true
     }
 
 });

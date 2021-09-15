@@ -62,12 +62,12 @@ export default function RoomList() {
   useEffect(() => {
     fetchRoom();
   }, []);
-  const handleEdit = (id, rNumber, rType, bCounts, avai) => {
+  const handleEdit = (id, rNumber, rType, bCounts, available) => {
     setId(id);
     setRoomNumber(rNumber);
     setRoomType(rType);
     setBedCounts(bCounts);
-    setAvailable(avai);
+    setAvailable(available);
   };
 
   const handleDelete = (id) => {
@@ -150,7 +150,7 @@ export default function RoomList() {
               />
             </div>
             <div>
-              <label htmlFor="roomNumber">Available</label>
+              <label htmlFor="available">Available</label>
               <Input
                 type="text"
                 className="form-control"

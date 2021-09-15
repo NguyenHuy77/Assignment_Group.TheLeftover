@@ -5,7 +5,7 @@ const User = mongoose.model(
   new mongoose.Schema({
     id: String,
     name: String,
-    nationalId: String,
+    nationalID: String,
     phoneNumber: String,
     workPlace: String,
     username: String,
