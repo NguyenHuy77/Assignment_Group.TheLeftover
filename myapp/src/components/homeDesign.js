@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import "./css/style.css"
 import "bootstrap/dist/css/bootstrap.min.css";
+import 'jquery/dist/jquery.min.js';
+import 'bootstrap/dist/js/bootstrap.min.js';
 
 import pic1 from "./resources/1.jpg"
 import pic2 from "./resources/2.jpg"
