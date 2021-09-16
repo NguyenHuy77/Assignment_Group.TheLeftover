@@ -22,7 +22,6 @@ export function PatientCreate() {
   const [rooms, setRooms] = useState([]);
   const [room, setRoom] = useState("");
   const [change,setChange] =useState([])
-  const [available,setAvailable] =useState()
   const [error, setError] = useState(false);
   const [fetching, setFetching] = useState(false);
 
@@ -64,7 +63,7 @@ export function PatientCreate() {
   }
   const changeAvailable = (rNumber)=>{
      fetch(url1+"/roomNumber"+rNumber, {
-      method: "POST",
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
