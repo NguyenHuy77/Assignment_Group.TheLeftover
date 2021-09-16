@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import logo from "./resources/logo.png";
 
 function Header({ user, logOut }) {
-  const id=user._id
   return (
     <div>
       <header id="header" className="top">
@@ -32,7 +31,7 @@ function Header({ user, logOut }) {
                     </Link>
                   </li>):(
                     <li className="nav-item">
-                    <Link className="nav-link scrollto" to={`/schedule/${id}`}>
+                    <Link className="nav-link scrollto" to={`/schedule/${user._id}`}>
                       Schedule
                     </Link>
                   </li>)}
