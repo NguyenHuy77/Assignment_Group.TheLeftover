@@ -15,9 +15,7 @@ function CalendarModal({ refresh }) {
   const [toggleDelete, setToggleDelete] = useState(false);
   const [eventEdit, setEventEdit] = useState(null);
 
-
   const endPoint = "/events/";
-
 
   const handleClick = (event) => {
     setError("");
@@ -37,11 +35,12 @@ function CalendarModal({ refresh }) {
   };
 
   const handleDelete = async (id) => {
-    const res = await fetch(endPoint + "l" +id, {
+    const res = await fetch(endPoint + id, {
       method: "DELETE",
     });
 
     if (!res.ok) return setError("Cannot delete appointment");
+    
     setError("");
     refresh();
     modalOnClose();
