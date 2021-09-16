@@ -22,7 +22,6 @@ export function Profile() {
   const [workPlace, setWorkPlace] = useState();
   const [username, setUserName] = useState();
   const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
   const [role, setRole] = useState();
 
   const currentUser = authService.getCurrentUser();
@@ -43,7 +42,6 @@ export function Profile() {
     setWorkPlace(user.workPlace);
     setUserName(user.username);
     setEmail(user.email);
-    setPassword(user.password);
     setRole(user.role);
   };
   const save = () => {
@@ -59,7 +57,6 @@ export function Profile() {
         workPlace: workPlace,
         username: username,
         email: email,
-        password: password,
         role: role,
       }),
     }).then((data) => fetchUser());
@@ -146,16 +143,6 @@ export function Profile() {
                   name="email"
                   value={(func==="Edit")?(email):(user.email)}
                   onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div>
-                <label htmlFor="password">Password</label>
-                <Input
-                  type="text"
-                  className="form-control"
-                  name="password"
-                  value={(func==="Edit")?(password):(user.password)}
-                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
               {(func==="View")?( 
