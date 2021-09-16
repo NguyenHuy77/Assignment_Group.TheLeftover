@@ -33,6 +33,7 @@ router.get("/", async (req, res) => {
     }
   });
 
+  //get event by userID
   router.get("/user/:userID", async (req, res) => {
     try {
       const  event = await Event.find({userID:req.params.userID});

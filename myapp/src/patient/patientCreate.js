@@ -20,8 +20,7 @@ export function PatientCreate() {
   const [relationNumber, setRelationNumber] = useState();
   const [rooms, setRooms] = useState([]);
   const [room, setRoom] = useState("");
-  const [change, setChange] = useState([]);
-  const [available, setAvailable] = useState();
+  const [change,setChange] =useState([])
   const [error, setError] = useState(false);
   const [fetching, setFetching] = useState(false);
 
@@ -60,10 +59,10 @@ export function PatientCreate() {
     fetch(url1 + "/roomNumber" + rNumber)
       .then((res) => res.json())
       .then((json) => setChange(json));
-  };
-  const changeAvailable = (rNumber) => {
-    fetch(url1 + "/roomNumber" + rNumber, {
-      method: "POST",
+  }
+  const changeAvailable = (rNumber)=>{
+     fetch(url1+"/roomNumber"+rNumber, {
+      method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },

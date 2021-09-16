@@ -5,12 +5,12 @@ import "../css/style.css"
 import { useParams } from "react-router-dom";
 
 export function UserSchedule(){
-    const url = "/user";
+    const url = "/events";
     const [schedule,setSchedule]=useState([])
     let {id}=useParams()
 
     const fetchSchedule =() => {
-        fetch(url+"/"+id)
+        fetch(url+"/user/"+id)
         .then((res) => res.json())
         .then((json) => setSchedule(json))
     }

@@ -56,7 +56,6 @@ export default function UserList() {
   const [workPlace, setWorkPlace] = useState("");
   const [username, setUserName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
 
   const fetchUser = () => {
@@ -76,7 +75,6 @@ export default function UserList() {
     workPlace,
     username,
     email,
-    password,
     role
   ) => {
     setId(id);
@@ -86,7 +84,6 @@ export default function UserList() {
     setWorkPlace(workPlace);
     setUserName(username);
     setEmail(email);
-    setPassword(password);
     setRole(role);
   };
 
@@ -114,7 +111,6 @@ export default function UserList() {
           workPlace: workPlace,
           username: username,
           email: email,
-          password: password,
           role: role,
         }),
       }).then((data) => fetchUser());
@@ -131,7 +127,6 @@ export default function UserList() {
           workPlace: workPlace,
           username: username,
           email: email,
-          password: password,
           role: role,
         }),
       }).then((data) => fetchUser());
@@ -205,16 +200,6 @@ export default function UserList() {
               />
             </div>
             <div>
-              <label htmlFor="password">Password</label>
-              <Input
-                type="text"
-                className="form-control"
-                name="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            <div>
               <label htmlFor="role">Role</label>
               <Input
                 type="text"
@@ -280,7 +265,6 @@ export default function UserList() {
                         user.workPlace,
                         user.username,
                         user.email,
-                        user.password,
                         user.role
                       )
                     }
