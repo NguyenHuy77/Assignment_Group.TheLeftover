@@ -10,21 +10,21 @@ import { useCalendar } from "./CalendarContext";
 
 import buildCal from "./buildCal";
 
+const weekdays = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+
 function Calendar() {
   const { state, update } = useCalendar();
   const { eventsAll, month, now } = state;
   const { setEventsAll, setUsersAll, setRoomsAll, setMonth } = update;
   const [calendar, setCalendar] = useState([]);
-
-  const weekdays = [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-  ];
 
   const endPoint = "/";
 
@@ -58,11 +58,11 @@ function Calendar() {
   }, []);
 
   return (
-    <Container fluid className="bg-light">
-      <Container fluid className="my-2">
+    <>
+      <div className="my-2">
         <CalendarHeader now={now} time={month} setTime={setMonth} />
-      </Container>
-      <Container fluid>
+      </div>
+      <div>
         <Container fluid>
           <Row className="mb-1">
             {weekdays.map((day, idx) => (
@@ -89,9 +89,9 @@ function Calendar() {
             </Row>
           ))}
         </Container>
-      </Container>
+      </div>
       <CalendarModal refresh={getEvents} />
-    </Container>
+    </>
   );
 }
 

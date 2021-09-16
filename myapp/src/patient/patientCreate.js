@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Switch, Route, Link } from "react-router-dom";
-import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { Button, Alert } from "react-bootstrap";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
-import { useParams } from "react-router-dom";
 
 const url = "/patients";
 const url1 = "/rooms";
@@ -21,14 +20,14 @@ export function PatientCreate() {
   const [relationNumber, setRelationNumber] = useState();
   const [rooms, setRooms] = useState([]);
   const [room, setRoom] = useState("");
-  const [change,setChange] =useState([])
-  const [available,setAvailable] =useState()
+  const [change, setChange] = useState([]);
+  const [available, setAvailable] = useState();
   const [error, setError] = useState(false);
   const [fetching, setFetching] = useState(false);
 
   const createPatient = async () => {
     setFetching(false);
-    const res = await fetch(url, {
+    const res = await fetch(url +"f", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -58,34 +57,36 @@ export function PatientCreate() {
       .then((json) => setRooms(json));
   };
   const fetchChange = (rNumber) => {
-    fetch(url1+"/roomNumber"+rNumber)
+    fetch(url1 + "/roomNumber" + rNumber)
       .then((res) => res.json())
       .then((json) => setChange(json));
-  }
-  const changeAvailable = (rNumber)=>{
-     fetch(url1+"/roomNumber"+rNumber, {
+  };
+  const changeAvailable = (rNumber) => {
+    fetch(url1 + "/roomNumber" + rNumber, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        available: change.available-1
+        available: change.available - 1,
       }),
     });
-  }
+  };
 
   useEffect(() => {
     fetchRoom();
   }, []);
   useEffect(() => {
-    if(room!=="") {fetchChange(room);}
+    if (room !== "") {
+      fetchChange(room);
+    }
   });
   return (
     <div>
       <div className="col-md-12">
         <div className="card card-container">
           <h1>Patient Form</h1>
-          <Form>
+          <Form className="mb-2">
             <label htmlFor="name">Patient Name</label>
             <Input
               type="text"
@@ -191,20 +192,25 @@ export function PatientCreate() {
             <Button
               size="small"
               color="primary"
-              onClick={() => {changeAvailable(room);createPatient()}}
+              onClick={() => {
+                changeAvailable(room);
+                createPatient();
+              }}
             >
               Create
             </Button>
           </Form>
           {fetching &&
             (error ? (
-              <p className="text-danger">Failed to add patient</p>
+              <Alert variant="danger">Failed to add patient</Alert>
             ) : (
               <>
-                <p className="text-success">Patient added</p>
-                <Button>
-                  <Link to={"/patient"}>Go to list of patients</Link>
-                </Button>
+                <Alert variant="success">
+                  Success. Go to{" "}
+                  <Link to={"/patient"} className="text-dark">
+                    patients
+                  </Link>
+                </Alert>
               </>
             ))}
         </div>

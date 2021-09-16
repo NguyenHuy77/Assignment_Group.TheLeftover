@@ -6,32 +6,27 @@ import SearchTable from "./SearchTable";
 
 import { getSearch, getFilter, getFilterDelete } from "./getResults";
 
-function Search() {
-  const [data, setData] = useState([]);
-  const [results, setResults] = useState([]);
+function Search({
+  data,
+  results,
+  setResults,
+  handleDelete,
+  handleView,
+  columnsName,
+  columnsData,
+  columnsSearch,
+  columnsFilter,
+}) {
   const [filterList, setFilterList] = useState({});
   const [query, setQuery] = useState("");
-  const columnsToSearch = ["_id", "patientName", "nationalID"];
-  const columnsToFilter = ["patientName", "symptoms", "age"];
-  const endPoint = "/patients";
-
-  // fetch data
-  const getData = () => {
-    fetch(endPoint)
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data);
-        setResults(data);
-      });
-  };
 
   const searchOnSubmit = (query) => {
     setQuery(query);
-    setResults(getSearch(getFilter(data, filterList), query, columnsToSearch));
+    setResults(getSearch(getFilter(data, filterList), query, columnsSearch));
   };
 
   const filterOnChange = () => {
-    setResults(getFilter(getSearch(data, query, columnsToSearch), filterList));
+    setResults(getFilter(getSearch(data, query, columnsSearch), filterList));
   };
 
   const filterOnDelete = (filters, item) => {
@@ -41,10 +36,8 @@ function Search() {
 
   // useEffect
   useEffect(() => {
-    getData();
-
     setFilterList(
-      columnsToFilter.reduce((total, key) => {
+      columnsFilter.reduce((total, key) => {
         total[key] = [];
         return total;
       }, {})
@@ -65,7 +58,15 @@ function Search() {
         />
       )}
 
-      <SearchTable data={results} />
+      <div className="mt-2">
+        <SearchTable
+          data={results}
+          columnsName={columnsName}
+          columnsData={columnsData}
+          handleDelete={handleDelete}
+          handleView={handleView}
+        />
+      </div>
     </div>
   );
 }

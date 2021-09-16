@@ -9,7 +9,7 @@ function SearchFilter({ filters, data, onSelect, onDelete }) {
           return (
             <select
               key={i}
-              className="form-select filter"
+              className="form-select filter me-2"
               onChange={(e) => {
                 if (!filters[key].includes(e.target.value))
                   filters[key].push(e.target.value);

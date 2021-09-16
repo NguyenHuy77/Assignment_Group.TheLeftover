@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Modal, ListGroup, Col } from "react-bootstrap";
+import { Button, Modal, ListGroup, Col, Alert } from "react-bootstrap";
 
 import dayjs from "dayjs";
 import CalendarForm from "./CalendarForm";
@@ -37,7 +37,7 @@ function CalendarModal({ refresh }) {
   };
 
   const handleDelete = async (id) => {
-    const res = await fetch(endPoint + id, {
+    const res = await fetch(endPoint + "l" +id, {
       method: "DELETE",
     });
 
@@ -83,12 +83,12 @@ function CalendarModal({ refresh }) {
               Delete
             </Button>
           )}
-          <Button onClick={handleAdd}>Add</Button>
+          <Button onClick={handleAdd}>{toggleForm ? "Back" : "Add"}</Button>
         </div>
       </Modal.Header>
 
       <Modal.Body className="modal-body">
-        {error && <p className="text-danger">{error}</p>}
+        {error && <Alert variant="danger">{error}</Alert>}
         {!toggleForm && eventsFocus.length === 0 && <p>No appointment yet</p>}
         {!toggleForm && eventsFocus.length > 0 && (
           <ListGroup className="overflow-hidden">

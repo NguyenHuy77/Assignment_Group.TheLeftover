@@ -63,9 +63,9 @@ class App extends Component {
 
     return (
       <div>
-        <div className="body">
+        <div className="body mb-2">
           <Header user={currentUser} logOut={this.logOut} />
-          <div className="container mt-3 main">
+          <div className="container-fluid mt-3 main">
             <Switch>
               <Route exact path={["/", "/home"]} component={Home} />
               <Route exact path="/login" component={Login} />

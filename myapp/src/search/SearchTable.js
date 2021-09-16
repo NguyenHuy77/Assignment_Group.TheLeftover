@@ -1,63 +1,64 @@
-import { Button } from "react-bootstrap";
+import { useState } from "react";
+import { Button, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-function SearchTable({ data }) {
-  const firstRow = data[0];
-  const url = "/patients";
-  const columns =
-    firstRow &&
-    Object.keys(firstRow).filter(
-      (column) => typeof firstRow[column] !== "object"
-    );
+import TablePagination from "./TablePagination";
 
-  const handleDelete = (id) => {
-    fetch(url + "/" + id, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id: id }),
-    });
-  };
+const rowsPerPage = 10;
+
+function SearchTable({
+  data,
+  columnsName,
+  columnsData,
+  handleDelete,
+  handleView,
+}) {
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // Get current posts
+  const indexOfLastPost = currentPage * rowsPerPage;
+  const indexOfFirstPost = indexOfLastPost - rowsPerPage;
+  const currentData = data.slice(indexOfFirstPost, indexOfLastPost);
+
+  // Change page
+  const paginate = (number) => setCurrentPage(number);
 
   return (
     <div>
-      <p className="mb-1 mt-3">
-        Showing {data.length} of {data.length} results
-      </p>
-      <table
+      <Table
         className="table table-striped table-lg align-middle border"
         style={{ fontSize: "0.88rem" }}
       >
         <thead className="table-dark">
           <tr>
-            {columns &&
-              columns.map((column, i) => (
-                <th key={i} scope="col" className="fw-normal py-3">
-                  {column.toLowerCase()}
+            {columnsName &&
+              columnsName.map((column, i) => (
+                <th key={i} scope="col" className="py-4">
+                  {column}
                 </th>
               ))}
             <th colSpan="2"></th>
           </tr>
         </thead>
         <tbody>
-          {data &&
-            data.map((item, i) => (
+          {currentData &&
+            currentData.map((item, i) => (
               <tr key={i}>
-                {columns.map((column, j) => {
-                  if (typeof item[column] !== "object")
-                    return <td key={j}>{item[column]}</td>;
-                  return null;
+                {columnsData.map((column, j) => {
+                  return (
+                    <td key={j} className="py-4">
+                      {item[column]}
+                    </td>
+                  );
                 })}
                 <td colSpan="2">
                   {
-                    <Button className="me-2" variant="muted">
-                      <Link
-                        to={`/patient/${item["_id"]}`}
-                        className="text-primary btn-sm"
-                      >
-                        View
-                      </Link>
+                    <Button
+                      className="me-2"
+                      variant="muted"
+                      onClick={() => handleView(item["_id"])}
+                    >
+                      View
                     </Button>
                   }
                   {
@@ -73,7 +74,13 @@ function SearchTable({ data }) {
               </tr>
             ))}
         </tbody>
-      </table>
+      </Table>
+      <TablePagination
+        paginate={paginate}
+        totalPages={data.length}
+        rowsPerPage={rowsPerPage}
+        currentPage={currentPage}
+      />
     </div>
   );
 }
