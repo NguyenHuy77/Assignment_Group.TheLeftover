@@ -1,188 +1,206 @@
-import React, { Component } from "react";
+import React from "react";
 import { useState, useEffect } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import { withStyles, makeStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableHead from "@material-ui/core/TableHead";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
-import Button from "@material-ui/core/Button";
+import { Alert, Col, Form, Row, Button } from "react-bootstrap";
+import dayjs from "dayjs";
 
-const url = "/patients";
-export function TestTable({id}) {
-   let _id= id;
+import SearchTable from "../search/SearchTable";
+import Loader from "../components/Loader";
+import TextField from "../components/TextField";
 
-   const [patient, setPatient] = useState([]);
-   const [testResults,setTestResults] = useState([])
-   const [newResults,setNewResults] = useState([])
-   const [idTest, setIdTest] = useState("");
-   const [testDetail, setTestDetail] = useState({result : '', dateTest: '', testTime : '', nurse :''})
+import testsApi from "../api/tests";
 
-   const fetchPatient = () =>{
-    fetch(url+'/'+_id)
-     .then((res) => res.json())
-     .then((json) => setPatient(json))
-     .then(()=>{changeResult()});
-   }
-   useEffect(() => {
-    fetchPatient();
-    })
+const columnsName = ["Test Time", "Results", "Date Test"];
+const columnsData = ["testTime", "result", "dateTest"];
 
+export function TestTable({ id }) {
+  const patientId = id;
 
-   const handleEdit = (id, tTime, dTest, result, nurse) => {
-    setIdTest(id);
-    setTestDetail({result:result, dateTest:dTest, testTime:tTime,nurse:nurse})
-    
-  };
-   const changeResult = () => {
-       setTestResults(patient.testResults)
-   }
+  const [testResults, setTestResults] = useState([]);
+  const [idTest, setIdTest] = useState("");
 
+  const [testTime, setTestTime] = useState();
+  const [result, setResult] = useState();
+  const [nurse, setNurse] = useState();
+  const [hour, setHour] = useState(0);
+  const [min, setMin] = useState(0);
+  const [day, setDay] = useState(1);
+  const [month, setMonth] = useState(1);
+  const [year, setYear] = useState(1970);
 
-   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setTestDetail(prevState => ({
-        ...prevState,
-        [name]: value
-    }));
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const fetchTests = async () => {
+    setError("");
+
+    setLoading(true);
+    const res = await testsApi.getPatientTests(patientId);
+    setLoading(false);
+
+    if (res.statusText !== "OK")
+      return setError("Error when fetching tests data");
+
+    setError("");
+    setTestResults(res.data);
   };
 
-  const handleDelete = (id,testID) => {
-    fetch(url + "/" + id+"/"+testID, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id: id }),
-    }).then((data) => fetchPatient());
+  useEffect(() => {
+    fetchTests();
+  }, []);
+
+  const handleEdit = (item) => {
+    setIdTest(item._id);
+    setTestTime(item.testTime);
+    setResult(item.result);
+    setNurse(item.testUser);
+    setHour(item.date.hour());
+    setMin(item.date.minute());
+    setDay(item.date.date());
+    setMonth(item.date.month());
+    setYear(item.date.year());
   };
 
-  const save = () =>{if (idTest === "") {
-    fetch(url+'/'+_id, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        testResults:newResults
-      }),
-    }).then((data) => fetchPatient());
-  } else {
-    fetch(url + "/" + _id+ "/" +idTest, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-          testTime:testDetail.testTime,
-          dateTest:testDetail.dateTest,
-          result:testDetail.result,
-          nurse:testDetail.nurse
-      }),
-    }).then((data) => fetchPatient());
-  }}
+  const handleDelete = async (item) => {
+    setError("");
 
+    setLoading(true);
+    const res = await testsApi.deleteTest(item._id);
+    setLoading(false);
 
+    if (res.statusText !== "OK") return setError("Cannot delete test");
 
-  const StyledTableCell = withStyles((theme) => ({
-        head: {
-          backgroundColor: theme.palette.common.black,
-          color: theme.palette.common.white,
-        },
-        body: {
-          fontSize: 14,
-        },
-      }))(TableCell);
-      
-      const StyledTableRow = withStyles((theme) => ({
-        root: {
-          "&:nth-of-type(odd)": {
-            backgroundColor: theme.palette.action.hover,
-          },
-        },
-      }))(TableRow);
+    setError("");
+    fetchTests();
+  };
 
+  const save = async () => {
+    let date;
+    try {
+      date = dayjs()
+        .minute(min)
+        .hour(hour)
+        .date(day)
+        .month(month)
+        .year(year)
+        .format();
+    } catch (e) {
+      setError("Error in parsing date");
+    }
+    const data = {
+      patientID: patientId,
+      testTime: testTime,
+      result: result,
+      testUser: nurse,
+      date: date,
+    };
 
-    return(
-        <div>
-            <TableContainer component={Paper}>
-        <Table aria-label="customized table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>Test Time</StyledTableCell>
-              <StyledTableCell align="right">Result </StyledTableCell>
-              <StyledTableCell align="right">Date test </StyledTableCell>
-              <StyledTableCell align="right">View </StyledTableCell>
-              <StyledTableCell align="right">Delete </StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-              {((patient !== undefined)&(testResults!==undefined))&&(
-               testResults.map((te)=>(
-                  <StyledTableRow key={te.testTime}>
-                <StyledTableCell component="th" scope="row">
-                  {te.testTime}
-                </StyledTableCell>
-                <StyledTableCell align="right">{te.result}</StyledTableCell>
-                <StyledTableCell align="right">{te.dateTest}</StyledTableCell>
-                <StyledTableCell align="right">
-                  <Button
-                    size="small"
-                    color="primary"
-                    onClick={ () => handleEdit(te._id,te.testTime,te.dateTest,te.result,te.nurse)}
-                  >
-                    View
-                  </Button>
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  <Button
-                    size="small"
-                    color="primary"
-                    onClick={()=> handleDelete(_id,te._id)}
-                  >
-                    Delete
-                  </Button>
-                </StyledTableCell>
-              </StyledTableRow>
-                ))
-              )}
-          </TableBody>
-        </Table>
-      </TableContainer>
+    setError("");
+
+    setLoading(true);
+    const res = await (idTest === ""
+      ? testsApi.postTest(data)
+      : testsApi.patchTest(idTest, data));
+    setLoading(false);
+
+    if (res.statusText !== "OK") return setError("Cannot save test");
+
+    setError("");
+    fetchTests();
+  };
+
+  return (
+    <div>
+      {error && <Alert variant="danger">{error}</Alert>}
+      {loading && <Loader />}
+
+      <SearchTable
+        data={testResults}
+        columnsName={columnsName}
+        columnsData={columnsData}
+        handleDelete={handleDelete}
+        handleView={handleEdit}
+      />
+
       <div class="card container">
         <form>
-        {(idTest ==='') ? (<h1>New Test Result</h1>):(<h1>Edit Result</h1>)}
-          <div class="row">
-            <div class="col">
-            <input type="text" class="form-control" placeholder="Test Time" name="testTime" value={testDetail.testTime} onChange={handleChange}/>
-            </div>
-            <div class="col">
-            <input type="text" class="form-control" placeholder="Result" name="result" value={testDetail.result} onChange={handleChange}/>
-            </div>
-            <div class="col">
-            <input type="text" class="form-control" placeholder="Date Test" name="dateTest" value={testDetail.dateTest} onChange={handleChange}/>
-            </div>
-            <div class="col">
-            <input type="text" class="form-control" placeholder="Nurse" name="nurse" value={testDetail.nurse} onChange={handleChange}/>
-            </div>
+          {idTest === "" ? <h1>New Test Result</h1> : <h1>Edit Result</h1>}
+          <div>
+            <Form>
+              <TextField
+                label="Test Time"
+                id="ttime"
+                value={testTime}
+                onChange={(e) => setTestTime(e.target.value)}
+              />
+              <TextField
+                label="Result"
+                id="tresult"
+                value={result}
+                onChange={(e) => setResult(e.target.value)}
+              />
+              <Row>
+                <Col>
+                  <TextField
+                    label="Hour"
+                    id="thour"
+                    value={hour}
+                    onChange={(e) => setHour(e.target.value)}
+                  />
+                </Col>
+                <Col>
+                  <TextField
+                    label="Minute"
+                    id="tmin"
+                    value={min}
+                    onChange={(e) => setMin(e.target.value)}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <TextField
+                    label="DD"
+                    id="tday"
+                    value={day}
+                    onChange={(e) => setDay(e.target.value)}
+                  />
+                </Col>
+                <Col>
+                  <TextField
+                    label="MM"
+                    id="tmonth"
+                    value={month}
+                    onChange={(e) => setMonth(e.target.value)}
+                  />
+                </Col>
+                <Col>
+                  <TextField
+                    label="YYYY"
+                    id="tyear"
+                    value={year}
+                    onChange={(e) => setYear(e.target.value)}
+                  />
+                </Col>
+              </Row>
+              <TextField
+                label="Nurse"
+                id="tnurse"
+                value={nurse}
+                onChange={(e) => setNurse(e.target.value)}
+              />
+            </Form>
           </div>
-          {(idTest ==='') ? (
-            <Button  color="primary" onClick={() => {
-              setNewResults(testResults);
-              setNewResults(pre =>[...pre,testDetail]);
-              save();
-              }}>
+          {idTest === "" ? (
+            <Button color="primary" onClick={save}>
               Create
-            </Button>)
-            :(
-            <Button  color="primary" onClick={() => save()}>
+            </Button>
+          ) : (
+            <Button color="primary" onClick={save}>
               Edit
-            </Button>)}
+            </Button>
+          )}
         </form>
       </div>
-        </div>
-    )
+    </div>
+  );
 }
