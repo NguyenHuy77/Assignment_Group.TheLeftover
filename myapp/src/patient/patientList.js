@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Alert, Spinner } from "react-bootstrap";
+import { Alert } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
+
+import patientsApi from "../api/patients";
+import Loader from "../components/Loader";
 import Search from "../search/Search";
 
 const columnsSearch = ["_id", "patientName", "nationalID"];
@@ -35,41 +39,41 @@ export default function PatientList() {
   const [data, setData] = useState([]);
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState("");
 
-  const endPoint = "/patients";
+  const history = useHistory();
 
   // fetch data
   const getData = async () => {
+    setError("");
+
     setLoading(true);
-
-    await fetch(endPoint)
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data);
-        setResults(data);
-      });
-
+    const res = await patientsApi.getPatients();
     setLoading(false);
+
+    if (res.statusText !== "OK")
+      return setError("Error when fetching patients data");
+
+    setError("");
+    setResults(res.data);
+    setData(res.data);
   };
 
   const handleDelete = async (id) => {
+    setError("");
+
     setLoading(true);
-
-    const res = await fetch(endPoint + "/" + id, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id: id }),
-    });
-
+    const res = await patientsApi.deletePatient(id);
     setLoading(false);
 
-    if (!res.ok) return setError("Cannot delete patient");
+    if (res.statusText !== "OK") return setError("Cannot delete patient");
 
-    setError(false);
+    setError("");
     getData();
+  };
+
+  const handleView = (id) => {
+    history.push("/patient/" + id);
   };
 
   useEffect(() => {
@@ -79,11 +83,8 @@ export default function PatientList() {
   return (
     <div>
       {error && <Alert variant="danger">{error}</Alert>}
-      {loading && (
-        <Spinner animation="border" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </Spinner>
-      )}
+      {loading && <Loader />}
+
       <Search
         data={data}
         results={results}
@@ -93,6 +94,7 @@ export default function PatientList() {
         columnsSearch={columnsSearch}
         columnsName={columnsName}
         handleDelete={handleDelete}
+        handleView={handleView}
       />
     </div>
   );

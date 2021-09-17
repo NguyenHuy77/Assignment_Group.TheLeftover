@@ -1,8 +1,7 @@
-import React, { Component } from "react";
+import React from "react";
 import { useState, useEffect } from "react";
-import { Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { withStyles, makeStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableHead from "@material-ui/core/TableHead";
@@ -14,8 +13,9 @@ import Button from "@material-ui/core/Button";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import Register from "../components/adminRegister";
-
-const url = "/users";
+import usersApi from "../api/users";
+import Loader from "../components/Loader";
+import { Alert } from "react-bootstrap";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -34,19 +34,7 @@ const StyledTableRow = withStyles((theme) => ({
     },
   },
 }))(TableRow);
-const useStyles = makeStyles((theme) => ({
-  modal: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  paper: {
-    backgroundColor: theme.palette.background.paper,
-    border: "2px solid #000",
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
-}));
+
 export default function UserList() {
   const [users, setUsers] = useState([]);
   const [id, setId] = useState("");
@@ -58,15 +46,26 @@ export default function UserList() {
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("");
 
-  const fetchUser = () => {
-    fetch(url)
-      .then((res) => res.json())
-      .then((json) => setUsers(json));
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const fetchUser = async () => {
+    setError("");
+
+    setLoading(true);
+    const res = await usersApi.getUsers();
+    setLoading(false);
+
+    if (res.statusText !== "OK") return setError("Error when fetching users");
+
+    setError("");
+    setUsers(res.data);
   };
 
   useEffect(() => {
     fetchUser();
   }, []);
+
   const handleEdit = (
     id,
     name,
@@ -87,137 +86,135 @@ export default function UserList() {
     setRole(role);
   };
 
-  const handleDelete = (id) => {
-    fetch(url + "/" + id, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id: id }),
-    }).then((data) => fetchUser());
+  const handleDelete = async (id) => {
+    setError("");
+
+    setLoading(true);
+    const res = await usersApi.deleteUser(id);
+    setLoading(false);
+
+    if (res.statusText !== "OK") return setError("Cannot delete user");
+
+    setError("");
+
+    fetchUser();
   };
 
-  const save = () => {
-    if (id === "") {
-      fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: name,
-          nationalID: nationalID,
-          phoneNumber: phoneNumber,
-          workPlace: workPlace,
-          username: username,
-          email: email,
-          role: role,
-        }),
-      }).then((data) => fetchUser());
-    } else {
-      fetch(url + "/" + id, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: name,
-          nationalID: nationalID,
-          phoneNumber: phoneNumber,
-          workPlace: workPlace,
-          username: username,
-          email: email,
-          role: role,
-        }),
-      }).then((data) => fetchUser());
-    }
+  const save = async () => {
+    const data = {
+      name: name,
+      nationalID: nationalID,
+      phoneNumber: phoneNumber,
+      workPlace: workPlace,
+      username: username,
+      email: email,
+      role: role,
+    };
+
+    setError("");
+
+    setLoading(true);
+    const res = await (id === ""
+      ? usersApi.postUser(data)
+      : usersApi.patchUser(id, data));
+    setLoading(false);
+
+    if (res.statusText !== "OK") return setError("Cannot save user");
+
+    setError("");
+
+    fetchUser();
   };
 
   return (
     <div>
       <div className="col-md-12">
         <div className="card card-container">
-          {(id==="")?(<Register/>):(
+          {id === "" ? (
+            <Register />
+          ) : (
             <Form onSubmit={() => save()}>
-            <div>
-              <label htmlFor="name">Name</label>
-              <Input
-                type="text"
-                className="form-control"
-                name="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="nationalID">National ID</label>
-              <Input
-                type="text"
-                className="form-control"
-                name="nationalID"
-                value={nationalID}
-                onChange={(e) => setNationalID(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="phonenumber">Phone Number</label>
-              <Input
-                type="text"
-                className="form-control"
-                name="phonenumber"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="workplace">Work Place</label>
-              <Input
-                type="text"
-                className="form-control"
-                name="workplace"
-                value={workPlace}
-                onChange={(e) => setWorkPlace(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="username">Username</label>
-              <Input
-                type="text"
-                className="form-control"
-                name="username"
-                value={username}
-                onChange={(e) => setUserName(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="email">Email</label>
-              <Input
-                type="text"
-                className="form-control"
-                name="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="role">Role</label>
-              <Input
-                type="text"
-                className="form-control"
-                name="role"
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
-              />
-            </div>
-            <Button size="small" color="primary" onClick={() => save()}>
-              {" "}
-              Edit
-            </Button>
-          </Form>
+              <div>
+                <label htmlFor="name">Name</label>
+                <Input
+                  type="text"
+                  className="form-control"
+                  name="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+              <div>
+                <label htmlFor="nationalID">National ID</label>
+                <Input
+                  type="text"
+                  className="form-control"
+                  name="nationalID"
+                  value={nationalID}
+                  onChange={(e) => setNationalID(e.target.value)}
+                />
+              </div>
+              <div>
+                <label htmlFor="phonenumber">Phone Number</label>
+                <Input
+                  type="text"
+                  className="form-control"
+                  name="phonenumber"
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                />
+              </div>
+              <div>
+                <label htmlFor="workplace">Work Place</label>
+                <Input
+                  type="text"
+                  className="form-control"
+                  name="workplace"
+                  value={workPlace}
+                  onChange={(e) => setWorkPlace(e.target.value)}
+                />
+              </div>
+              <div>
+                <label htmlFor="username">Username</label>
+                <Input
+                  type="text"
+                  className="form-control"
+                  name="username"
+                  value={username}
+                  onChange={(e) => setUserName(e.target.value)}
+                />
+              </div>
+              <div>
+                <label htmlFor="email">Email</label>
+                <Input
+                  type="text"
+                  className="form-control"
+                  name="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              <div>
+                <label htmlFor="role">Role</label>
+                <Input
+                  type="text"
+                  className="form-control"
+                  name="role"
+                  value={role}
+                  onChange={(e) => setRole(e.target.value)}
+                />
+              </div>
+              <Button size="small" color="primary" onClick={() => save()}>
+                {" "}
+                Edit
+              </Button>
+            </Form>
           )}
-          
         </div>
       </div>
+
+      {loading && <Loader />}
+      {error && <Alert variant="danger">{error}</Alert>}
 
       <TableContainer component={Paper}>
         <Table aria-label="customized table">

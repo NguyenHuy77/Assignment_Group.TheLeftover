@@ -5,9 +5,12 @@ import { Link } from "react-router-dom";
 import { Button, Alert } from "react-bootstrap";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
+import patientsApi from "../api/patients";
+import roomsApi from "../api/rooms";
+import Loader from "../components/Loader";
 
-const url = "/patients";
 const url1 = "/rooms";
+
 export function PatientCreate() {
   const [name, setName] = useState();
   const [age, setAge] = useState();
@@ -20,48 +23,56 @@ export function PatientCreate() {
   const [relationNumber, setRelationNumber] = useState();
   const [rooms, setRooms] = useState([]);
   const [room, setRoom] = useState("");
-  const [change,setChange] =useState([])
-  const [error, setError] = useState(false);
-  const [fetching, setFetching] = useState(false);
+  const [change, setChange] = useState([]);
+
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const createPatient = async () => {
-    setFetching(false);
-    const res = await fetch(url +"f", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        patientName: name,
-        age: age,
-        nationalID: nationalID,
-        address: address,
-        relationNumber: relationNumber,
-        day: day,
-        symptoms: symptoms,
-        roomNumber: room,
-        healthStatus: healthStatus,
-        procession: procession,
-      }),
-    });
+    const data = {
+      patientName: name,
+      age: age,
+      nationalID: nationalID,
+      address: address,
+      relationNumber: relationNumber,
+      day: day,
+      symptoms: symptoms,
+      roomNumber: room,
+      healthStatus: healthStatus,
+      procession: procession,
+    };
 
-    setFetching(true);
-
-    if (!res.ok) return setError(true);
     setError(false);
+    setSuccess(false);
+
+    setLoading(true);
+    const res = await patientsApi.postPatient(data);
+    setLoading(false);
+
+    if (res.statusText !== "OK") {
+      setSuccess(false);
+      setError(true);
+      return;
+    }
+
+    setError(false);
+    setSuccess(true);
   };
-  const fetchRoom = () => {
-    fetch(url1)
-      .then((res) => res.json())
-      .then((json) => setRooms(json));
+
+  const fetchRoom = async () => {
+    const res = await roomsApi.getRooms();
+    setRooms(res.data);
   };
+
   const fetchChange = (rNumber) => {
     fetch(url1 + "/roomNumber" + rNumber)
       .then((res) => res.json())
       .then((json) => setChange(json));
-  }
-  const changeAvailable = (rNumber)=>{
-     fetch(url1+"/roomNumber"+rNumber, {
+  };
+
+  const changeAvailable = (rNumber) => {
+    fetch(url1 + "/roomNumber" + rNumber, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -82,6 +93,7 @@ export function PatientCreate() {
   });
   return (
     <div>
+      {loading && <Loader />}
       <div className="col-md-12">
         <div className="card card-container">
           <h1>Patient Form</h1>
@@ -199,19 +211,15 @@ export function PatientCreate() {
               Create
             </Button>
           </Form>
-          {fetching &&
-            (error ? (
-              <Alert variant="danger">Failed to add patient</Alert>
-            ) : (
-              <>
-                <Alert variant="success">
-                  Success. Go to{" "}
-                  <Link to={"/patient"} className="text-dark">
-                    patients
-                  </Link>
-                </Alert>
-              </>
-            ))}
+          {error && <Alert variant="danger">Failed to add patient</Alert>}
+          {success && (
+            <Alert variant="success">
+              Success. Go to{" "}
+              <Link to={"/patient"} className="text-dark">
+                patients
+              </Link>
+            </Alert>
+          )}
         </div>
       </div>
     </div>

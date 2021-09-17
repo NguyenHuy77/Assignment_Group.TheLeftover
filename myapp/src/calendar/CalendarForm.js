@@ -3,6 +3,8 @@ import { useState } from "react";
 import { Button, Col, Row, Form, Alert } from "react-bootstrap";
 import { useCalendar } from "./CalendarContext";
 
+import eventsApi from "../api/events";
+
 function CalendarForm({ event, onClose }) {
   const { state } = useCalendar();
   const { roomsAll, usersAll, dateFocus } = state;
@@ -16,8 +18,6 @@ function CalendarForm({ event, onClose }) {
   const [minuteSelect, setMinuteSelect] = useState(event ? eventMinute : 0);
   const [error, setError] = useState(false);
 
-  const endPoint = "/events";
-
   const formOnSubmit = async () => {
     if (userSelect === "" || roomSelect === "")
       return setError("Please select both doctor and room");
@@ -28,15 +28,11 @@ function CalendarForm({ event, onClose }) {
       date: dateFocus.hour(hourSelect).minute(minuteSelect).format(),
     };
 
-    const res = await fetch(!event ? endPoint : endPoint + `/${event._id}`, {
-      method: !event ? "POST" : "PATCH",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await (!event
+      ? eventsApi.postEvent(data)
+      : eventsApi.patchEvent(event._id, data));
 
-    if (!res.ok) setError("Could not add event");
+    if (res.statusText !== "OK") setError("Could not add event");
 
     setUserSelect("");
     setRoomSelect("");

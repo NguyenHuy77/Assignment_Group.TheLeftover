@@ -1,6 +1,6 @@
 import "./Calendar.css";
 import { useState, useEffect } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Alert } from "react-bootstrap";
 import dayjs from "dayjs";
 
 import CalendarHeader from "./CalendarHeader";
@@ -9,6 +9,10 @@ import CalendarModal from "./CalendarModal";
 import { useCalendar } from "./CalendarContext";
 
 import buildCal from "./buildCal";
+import eventsApi from "../api/events";
+import usersApi from "../api/users";
+import roomsApi from "../api/rooms";
+import Loader from "../components/Loader";
 
 const weekdays = [
   "Sunday",
@@ -26,24 +30,30 @@ function Calendar() {
   const { setEventsAll, setUsersAll, setRoomsAll, setMonth } = update;
   const [calendar, setCalendar] = useState([]);
 
-  const endPoint = "/";
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const getEvents = async () => {
-    const res = await fetch(endPoint + "events");
-    const data = await res.json();
-    setEventsAll(data);
+    setError("");
+
+    setLoading(true);
+    const res = await eventsApi.getEvents();
+    setLoading(false);
+
+    if (res.statusText !== "OK") return setError("Error when fetching events");
+
+    setError("");
+    setEventsAll(res.data);
   };
 
   const getUsers = async () => {
-    const res = await fetch(endPoint + "users");
-    const data = await res.json();
-    setUsersAll(data);
+    const res = await usersApi.getUsers();
+    setUsersAll(res.data);
   };
 
   const getRooms = async () => {
-    const res = await fetch(endPoint + "rooms");
-    const data = await res.json();
-    setRoomsAll(data);
+    const res = await roomsApi.getRooms();
+    setRoomsAll(res.data);
   };
 
   useEffect(() => {
@@ -59,6 +69,8 @@ function Calendar() {
 
   return (
     <>
+      {loading && <Loader />}
+      {error && <Alert variant="danger">{error}</Alert>}
       <div className="my-2">
         <CalendarHeader now={now} time={month} setTime={setMonth} />
       </div>
@@ -90,7 +102,7 @@ function Calendar() {
           ))}
         </Container>
       </div>
-      <CalendarModal refresh={getEvents} />
+      <CalendarModal />
     </>
   );
 }

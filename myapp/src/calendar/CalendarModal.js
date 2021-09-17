@@ -4,18 +4,22 @@ import { Button, Modal, ListGroup, Col, Alert } from "react-bootstrap";
 import dayjs from "dayjs";
 import CalendarForm from "./CalendarForm";
 import { useCalendar } from "./CalendarContext";
+import eventsApi from "../api/events";
 
 function CalendarModal({ refresh }) {
   const { state, update } = useCalendar();
   const { modalShow, eventsFocus } = state;
-  const { setModalShow } = update;
+  const { setModalShow, setEventsAll } = update;
   const [error, setError] = useState("");
 
   const [toggleForm, setToggleForm] = useState(false);
   const [toggleDelete, setToggleDelete] = useState(false);
   const [eventEdit, setEventEdit] = useState(null);
 
-  const endPoint = "/events/";
+  const getEvents = async () => {
+    const res = await eventsApi.getEvents();
+    setEventsAll(res.data);
+  };
 
   const handleClick = (event) => {
     setError("");
@@ -35,14 +39,12 @@ function CalendarModal({ refresh }) {
   };
 
   const handleDelete = async (id) => {
-    const res = await fetch(endPoint + id, {
-      method: "DELETE",
-    });
+    const res = await eventsApi.deleteEvent(id);
 
-    if (!res.ok) return setError("Cannot delete appointment");
-    
+    if (res.statusText !== "OK") return setError("Cannot delete appointment");
+
     setError("");
-    refresh();
+    getEvents();
     modalOnClose();
   };
 
@@ -52,8 +54,8 @@ function CalendarModal({ refresh }) {
     setModalShow(false);
   };
 
-  const formSuccess = async () => {
-    await refresh();
+  const formSuccess = () => {
+    getEvents();
     modalOnClose();
   };
 

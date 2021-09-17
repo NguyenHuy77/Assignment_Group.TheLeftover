@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Button, Table } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Button, Table, Container } from "react-bootstrap";
 
 import TablePagination from "./TablePagination";
 
@@ -24,7 +23,7 @@ function SearchTable({
   const paginate = (number) => setCurrentPage(number);
 
   return (
-    <div>
+    <div className="table-responsive">
       <Table
         className="table table-striped table-lg align-middle border"
         style={{ fontSize: "0.88rem" }}
@@ -54,11 +53,11 @@ function SearchTable({
                 <td colSpan="2">
                   {
                     <Button
-                      className="me-2"
+                      className="me-2 text-primary btn-sm"
                       variant="muted"
                       onClick={() => handleView(item["_id"])}
                     >
-                      View
+                      VIEW
                     </Button>
                   }
                   {
@@ -67,7 +66,7 @@ function SearchTable({
                       className="text-primary btn-sm"
                       onClick={() => handleDelete(item["_id"])}
                     >
-                      Delete
+                      DELETE
                     </Button>
                   }
                 </td>
@@ -75,12 +74,14 @@ function SearchTable({
             ))}
         </tbody>
       </Table>
-      <TablePagination
-        paginate={paginate}
-        totalPages={data.length}
-        rowsPerPage={rowsPerPage}
-        currentPage={currentPage}
-      />
+      <div className="d-flex justify-content-end">
+        <TablePagination
+          paginate={paginate}
+          totalPages={data.length}
+          rowsPerPage={rowsPerPage}
+          currentPage={currentPage}
+        />
+      </div>
     </div>
   );
 }

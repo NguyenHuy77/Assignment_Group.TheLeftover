@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React from "react";
 import { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { withStyles, makeStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableHead from "@material-ui/core/TableHead";
@@ -12,8 +12,9 @@ import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
-
-const url = "/rooms";
+import roomsApi from "../api/rooms";
+import Loader from "../components/Loader";
+import { Alert } from "react-bootstrap";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -32,19 +33,7 @@ const StyledTableRow = withStyles((theme) => ({
     },
   },
 }))(TableRow);
-const useStyles = makeStyles((theme) => ({
-  modal: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  paper: {
-    backgroundColor: theme.palette.background.paper,
-    border: "2px solid #000",
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
-}));
+
 export default function RoomList() {
   const [rooms, setRooms] = useState([]);
   const [id, setId] = useState("");
@@ -53,15 +42,26 @@ export default function RoomList() {
   const [bedCounts, setBedCounts] = useState(0);
   const [available, setAvailable] = useState(0);
 
-  const fetchRoom = () => {
-    fetch(url)
-      .then((res) => res.json())
-      .then((json) => setRooms(json));
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const fetchRoom = async () => {
+    setError("");
+
+    setLoading(true);
+    const res = await roomsApi.getRooms();
+    setLoading(false);
+
+    if (res.statusText !== "OK") return setError("Error when fetching data");
+
+    setError("");
+    setRooms(res.data);
   };
 
   useEffect(() => {
     fetchRoom();
   }, []);
+
   const handleEdit = (id, rNumber, rType, bCounts, available) => {
     setId(id);
     setRoomNumber(rNumber);
@@ -70,44 +70,40 @@ export default function RoomList() {
     setAvailable(available);
   };
 
-  const handleDelete = (id) => {
-    fetch(url + "/" + id, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ id: id }),
-    }).then((data) => fetchRoom());
+  const handleDelete = async (id) => {
+    setError("");
+
+    setLoading(true);
+    const res = await roomsApi.deleteRoom(id);
+    setLoading(false);
+
+    if (res.statusText !== "OK") return setError("Cannot delete room");
+
+    setError("");
+    fetchRoom();
   };
 
-  const save = () => {
-    if (id === "") {
-      fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          roomNumber: roomNumber,
-          roomType: roomType,
-          bedCounts: bedCounts,
-          available: available
-        }),
-      }).then((data) => fetchRoom());
-    } else {
-      fetch(url + "/" + id, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          roomNumber: roomNumber,
-          roomType: roomType,
-          bedCounts: bedCounts,
-          available: available
-        }),
-      }).then((data) => fetchRoom());
-    }
+  const save = async () => {
+    const data = {
+      roomNumber: roomNumber,
+      roomType: roomType,
+      bedCounts: bedCounts,
+      available: available,
+    };
+
+    setError("");
+
+    setLoading(true);
+    const res = await (id === ""
+      ? roomsApi.postRoom(data)
+      : roomsApi.patchRoom(id, data));
+    setLoading(false);
+
+    if (res.statusText !== "OK") return setError("Cannot save room");
+
+    setError("");
+
+    fetchRoom();
   };
 
   return (
@@ -115,7 +111,7 @@ export default function RoomList() {
       <div className="col-md-12">
         <div className="card card-container">
           <Form onSubmit={() => save()}>
-            {(id ==='') ? (<h1>Creat Room</h1>):(<h1>Edit Room</h1>)}
+            {id === "" ? <h1>Creat Room</h1> : <h1>Edit Room</h1>}
             <div>
               <label htmlFor="roomNumber">Room Number</label>
               <Input
@@ -159,18 +155,21 @@ export default function RoomList() {
                 onChange={(e) => setAvailable(e.target.value)}
               />
             </div>
-            {(id ==='') ? (
-            <Button size="small" color="primary" onClick={() => save()}>
-              Create
-            </Button>)
-            :(
-            <Button size="small" color="primary" onClick={() => save()}>
-              Edit
-            </Button>)}
-            
+            {id === "" ? (
+              <Button size="small" color="primary" onClick={() => save()}>
+                Create
+              </Button>
+            ) : (
+              <Button size="small" color="primary" onClick={() => save()}>
+                Edit
+              </Button>
+            )}
           </Form>
         </div>
       </div>
+
+      {loading && <Loader />}
+      {error && <Alert variant="danger">{error}</Alert>}
 
       <TableContainer component={Paper}>
         <Table aria-label="customized table">
