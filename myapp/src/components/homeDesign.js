@@ -69,7 +69,7 @@ export default class HomeDesign extends Component {
                                         <div className="tn-img">
                                             <img src={pic4} alt=" "/>
                                             <div className="tn-title">
-                                                <a href=" ">Health ministry confirms 9,605 new COVID-19 cases</a>
+                                                <a href="http://news.chinhphu.vn/Utilities/PrintView.aspx?ID=45114">Health ministry confirms 9,605 new COVID-19 cases</a>
                                             </div>
                                         </div>
                                     </div>
@@ -77,7 +77,7 @@ export default class HomeDesign extends Component {
                                         <div className="tn-img">
                                             <img src={pic5} alt=" "/>
                                             <div className="tn-title">
-                                                <a href=" ">Gov’t places top priority on COVID-19 containment</a>
+                                                <a href="http://news.chinhphu.vn/Home/Govt-places-top-priority-on-COVID19-containment/20218/45111.vgp">Gov’t places top priority on COVID-19 containment</a>
                                             </div>
                                         </div>
                                     </div>
@@ -85,7 +85,7 @@ export default class HomeDesign extends Component {
                                         <div className="tn-img">
                                             <img src={pic6} alt=" "/>
                                             <div className="tn-title">
-                                                <a href=" ">Eight southern localities urged to tighten borders control to prevent COVID-19</a>
+                                                <a href="http://news.chinhphu.vn/Home/Eight-southern-localities-urged-to-tighten-borders-control-to-prevent-COVID19/20218/45106.vgp">Eight southern localities urged to tighten borders control to prevent COVID-19</a>
                                             </div>
                                         </div>
                                     </div>
@@ -93,7 +93,7 @@ export default class HomeDesign extends Component {
                                         <div className="tn-img">
                                             <img src={pic7} alt=" "/>
                                             <div className="tn-title">
-                                                <a href=" ">HCMC to extend social distancing by one month to contain COVID-19 spread</a>
+                                                <a href="http://news.chinhphu.vn/Home/HCMC-to-extend-social-distancing-by-one-month-to-contain-COVID19-spread/20218/45092.vgp">HCMC to extend social distancing by one month to contain COVID-19 spread</a>
                                             </div>
                                         </div>
                                     </div>
@@ -114,7 +114,7 @@ export default class HomeDesign extends Component {
                                         <div className="mn-img">
                                             <img src={pic8} alt=" "/>
                                             <div className="mn-title">
-                                                <a href=" ">Viet Nam to purchase nearly 20 million Pfizer vaccine doses</a>
+                                                <a href="http://news.chinhphu.vn/Home/Viet-Nam-to-purchase-nearly-20-million-Pfizer-vaccine-doses/20218/45089.vgp">Viet Nam to purchase nearly 20 million Pfizer vaccine doses</a>
                                             </div>
                                         </div>
                                     </div>
@@ -122,7 +122,7 @@ export default class HomeDesign extends Component {
                                         <div className="mn-img">
                                             <img src={pic9} alt=" "/>
                                             <div className="mn-title">
-                                                <a href=" ">More than 5,000 new COVID-19 cases added to national tally</a>
+                                                <a href="http://news.chinhphu.vn/Home/More-than-5000-new-COVID19-cases-added-to-national-tally/20218/45063.vgp">More than 5,000 new COVID-19 cases added to national tally</a>
                                             </div>
                                         </div>
                                     </div>
@@ -130,7 +130,7 @@ export default class HomeDesign extends Component {
                                         <div className="mn-img">
                                             <img src={pic10} alt=" "/>
                                             <div className="mn-title">
-                                                <a href=" ">Leaders seek EU’s COVID-19 vaccine support</a>
+                                                <a href="http://news.chinhphu.vn/Home/Leaders-seek-EUs-COVID19-vaccine-support/20218/45128.vgp">Leaders seek EU’s COVID-19 vaccine support</a>
                                             </div>
                                         </div>
                                     </div>
@@ -138,7 +138,7 @@ export default class HomeDesign extends Component {
                                         <div className="mn-img">
                                             <img src={pic13} alt=" "/>
                                             <div className="mn-title">
-                                                <a href=" ">Domestic COVID-19 vaccine developer gets financial support</a>
+                                                <a href="http://news.chinhphu.vn/Home/Domestic-COVID19-vaccine-developer-gets-financial-support/20218/45108.vgp">Domestic COVID-19 vaccine developer gets financial support</a>
                                             </div>
                                         </div>
                                     </div>
@@ -146,7 +146,7 @@ export default class HomeDesign extends Component {
                                         <div className="mn-img">
                                             <img src={pic11} alt=" "/>
                                             <div className="mn-title">
-                                                <a href=" ">Three Coronavirus-hit provinces to get over 4,000 tons rice from national reserve</a>
+                                                <a href="http://news.chinhphu.vn/Home/Three-Coronavirushit-provinces-to-get-over-4000-tons-rice-from-national-reserve/20218/45101.vgp">Three Coronavirus-hit provinces to get over 4,000 tons rice from national reserve</a>
                                             </div>
                                         </div>
                                     </div>
@@ -154,7 +154,7 @@ export default class HomeDesign extends Component {
                                         <div className="mn-img">
                                             <img src={pic12} alt=" "/>
                                             <div className="mn-title">
-                                                <a href=" ">Volunteers get Covivac vaccine in second phase clinical trials</a>
+                                                <a href="http://news.chinhphu.vn/Home/Volunteers-get-Covivac-vaccine-in-second-phase-clinical-trials/20218/45123.vgp">Volunteers get Covivac vaccine in second phase clinical trials</a>
                                             </div>
                                         </div>
                                     </div>
@@ -162,7 +162,7 @@ export default class HomeDesign extends Component {
                                         <div className="mn-img">
                                             <img src={pic14} alt=" "/>
                                             <div className="mn-title">
-                                                <a href=" ">HCMC supports 2.5 million difficulty-struck people amidst pandemic time</a>
+                                                <a href="http://news.chinhphu.vn/Home/HCMC-supports-25-million-difficultystruck-people-amidst-pandemic-time/20218/45119.vgp">HCMC supports 2.5 million difficulty-struck people amidst pandemic time</a>
                                             </div>
                                         </div>
                                     </div>
@@ -170,7 +170,7 @@ export default class HomeDesign extends Component {
                                         <div className="mn-img">
                                             <img src={pic15}alt=" "/>
                                             <div className="mn-title">
-                                                <a href=" ">Ha Noi to test 13 groups of high-risk residents</a>
+                                                <a href="http://news.chinhphu.vn/Home/Ha-Noi-to-test-13-groups-of-highrisk-residents/20218/45122.vgp">Ha Noi to test 13 groups of high-risk residents</a>
                                             </div>
                                         </div>
                                     </div>
@@ -178,7 +178,7 @@ export default class HomeDesign extends Component {
                                         <div className="mn-img">
                                             <img src={pic16} alt=" "/>
                                             <div className="mn-title">
-                                                <a href=" ">Da Nang starts seven-day lockdown</a>
+                                                <a href="http://news.chinhphu.vn/Home/Da-Nang-starts-sevenday-lockdown/20218/45098.vgp">Da Nang starts seven-day lockdown</a>
                                             </div>
                                         </div>
                                     </div>
@@ -189,16 +189,16 @@ export default class HomeDesign extends Component {
                                 <div className="mn-list">
                                     <h2>Read More</h2>
                                     <ul>
-                                        <li><a href=" ">Health ministry confirms 9,605 new COVID-19 cases</a></li>
-                                        <li><a href=" ">Ha Noi to test 13 groups of high-risk residents</a></li>
-                                        <li><a href=" ">HCMC to extend social distancing by one month to contain COVID-19 spread</a></li>
-                                        <li><a href=" ">Da Nang starts seven-day lockdown</a></li>
-                                        <li><a href=" ">Ha Noi to test 13 groups of high-risk residents</a></li>
-                                        <li><a href=" ">HCMC supports 2.5 million difficulty-struck people amidst pandemic time</a></li>
-                                        <li><a href=" ">Domestic COVID-19 vaccine developer gets financial support</a></li>
-                                        <li><a href=" ">Leaders seek EU’s COVID-19 vaccine support</a></li>
-                                        <li><a href=" ">More than 5,000 new COVID-19 cases added to national tally</a></li>
-                                        <li><a href=" ">Viet Nam to purchase nearly 20 million Pfizer vaccine doses</a></li>
+                                        <li><a href="http://news.chinhphu.vn/Utilities/PrintView.aspx?ID=45114">Health ministry confirms 9,605 new COVID-19 cases</a></li>
+                                        <li><a href="http://news.chinhphu.vn/Home/Ha-Noi-to-test-13-groups-of-highrisk-residents/20218/45122.vgp">Ha Noi to test 13 groups of high-risk residents</a></li>
+                                        <li><a href="http://news.chinhphu.vn/Home/HCMC-to-extend-social-distancing-by-one-month-to-contain-COVID19-spread/20218/45092.vgp">HCMC to extend social distancing by one month to contain COVID-19 spread</a></li>
+                                        <li><a href="http://news.chinhphu.vn/Home/Da-Nang-starts-sevenday-lockdown/20218/45098.vgp">Da Nang starts seven-day lockdown</a></li>
+                                        <li><a href="http://news.chinhphu.vn/Home/Volunteers-get-Covivac-vaccine-in-second-phase-clinical-trials/20218/45123.vgp">Volunteers get Covivac vaccine in second phase clinical trials</a></li>
+                                        <li><a href="http://news.chinhphu.vn/Home/HCMC-supports-25-million-difficultystruck-people-amidst-pandemic-time/20218/45119.vgp">HCMC supports 2.5 million difficulty-struck people amidst pandemic time</a></li>
+                                        <li><a href="http://news.chinhphu.vn/Home/Domestic-COVID19-vaccine-developer-gets-financial-support/20218/45108.vgp">Domestic COVID-19 vaccine developer gets financial support</a></li>
+                                        <li><a href="http://news.chinhphu.vn/Home/Leaders-seek-EUs-COVID19-vaccine-support/20218/45128.vgp">Leaders seek EU’s COVID-19 vaccine support</a></li>
+                                        <li><a href="http://news.chinhphu.vn/Home/More-than-5000-new-COVID19-cases-added-to-national-tally/20218/45063.vgp">More than 5,000 new COVID-19 cases added to national tally</a></li>
+                                        <li><a href="http://news.chinhphu.vn/Home/Viet-Nam-to-purchase-nearly-20-million-Pfizer-vaccine-doses/20218/45089.vgp">Viet Nam to purchase nearly 20 million Pfizer vaccine doses</a></li>
                                     </ul>
                                 </div>
                             </div>
