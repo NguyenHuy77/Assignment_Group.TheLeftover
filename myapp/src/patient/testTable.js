@@ -53,11 +53,12 @@ export function TestTable({ id }) {
     setTestTime(item.testTime);
     setResult(item.result);
     setNurse(item.testUser);
-    setHour(item.date.hour());
-    setMin(item.date.minute());
-    setDay(item.date.date());
-    setMonth(item.date.month());
-    setYear(item.date.year());
+    const itemDate = dayjs(item.date);
+    setHour(itemDate.hour());
+    setMin(itemDate.minute());
+    setDay(itemDate.date());
+    setMonth(itemDate.month());
+    setYear(itemDate.year());
   };
 
   const handleDelete = async (item) => {
@@ -82,6 +83,7 @@ export function TestTable({ id }) {
         .date(day)
         .month(month)
         .year(year)
+        .second(0)
         .format();
     } catch (e) {
       setError("Error in parsing date");
