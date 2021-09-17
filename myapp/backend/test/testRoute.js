@@ -36,8 +36,8 @@ router.get("/", async (req, res) => {
   //get event by patientID
   router.get("/patient/:patientID", async (req, res) => {
     try {
-      const  event = await Event.find({patientID:req.params.patientID});
-      res.json( event);
+      const  test = await Test.find({patientID:req.params.patientID});
+      res.json( test);
     } catch (e) {
       res.json({ message: e });
     }
