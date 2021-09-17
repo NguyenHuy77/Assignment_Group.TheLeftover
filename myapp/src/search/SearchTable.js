@@ -17,7 +17,8 @@ function SearchTable({
   // Get current posts
   const indexOfLastPost = currentPage * rowsPerPage;
   const indexOfFirstPost = indexOfLastPost - rowsPerPage;
-  const currentData = data.slice(indexOfFirstPost, indexOfLastPost);
+  const currentData =
+    data.length > 0 ? data.slice(indexOfFirstPost, indexOfLastPost) : [];
 
   // Change page
   const paginate = (number) => setCurrentPage(number);
@@ -36,7 +37,12 @@ function SearchTable({
                   {column}
                 </th>
               ))}
-            <th colSpan="2"></th>
+            <th scope="col" className="py-4">
+              View
+            </th>
+            <th scope="col" className="py-4">
+              Delete
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -50,21 +56,25 @@ function SearchTable({
                     </td>
                   );
                 })}
-                <td colSpan="2">
+                <td>
                   {
                     <Button
-                      className="me-2 text-primary btn-sm"
+                      className="me-2 text-primary"
+                      size="sm"
                       variant="muted"
-                      onClick={() => handleView(item["_id"])}
+                      onClick={() => handleView(item)}
                     >
                       VIEW
                     </Button>
                   }
+                </td>
+                <td>
                   {
                     <Button
                       variant="muted"
-                      className="text-primary btn-sm"
-                      onClick={() => handleDelete(item["_id"])}
+                      size="sm"
+                      className="text-primary"
+                      onClick={() => handleDelete(item)}
                     >
                       DELETE
                     </Button>

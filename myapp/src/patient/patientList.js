@@ -59,11 +59,11 @@ export default function PatientList() {
     setData(res.data);
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (item) => {
     setError("");
 
     setLoading(true);
-    const res = await patientsApi.deletePatient(id);
+    const res = await patientsApi.deletePatient(item._id);
     setLoading(false);
 
     if (res.statusText !== "OK") return setError("Cannot delete patient");
@@ -72,8 +72,8 @@ export default function PatientList() {
     getData();
   };
 
-  const handleView = (id) => {
-    history.push("/patient/" + id);
+  const handleView = (item) => {
+    history.push("/patient/" + item._id);
   };
 
   useEffect(() => {

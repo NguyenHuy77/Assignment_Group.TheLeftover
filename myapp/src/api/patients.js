@@ -4,6 +4,8 @@ const endPoint = "/patients";
 
 const getPatients = () => axios.get(endPoint);
 
+const getPatient = (id) => axios.get(endPoint + "/" + id);
+
 const postPatient = (data) => axios.post(endPoint, data);
 
 const patchPatient = (patientId, data) =>
@@ -19,6 +21,7 @@ const deletePatient = (patientId) => axios.delete(endPoint + "/" + patientId);
 
 const patientsApi = {
   getPatients,
+  getPatient,
   postPatient,
   patchPatient,
   deletePatient,

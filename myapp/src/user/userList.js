@@ -1,14 +1,6 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { withStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableHead from "@material-ui/core/TableHead";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
@@ -16,24 +8,26 @@ import Register from "../components/adminRegister";
 import usersApi from "../api/users";
 import Loader from "../components/Loader";
 import { Alert } from "react-bootstrap";
+import SearchTable from "../search/SearchTable";
 
-const StyledTableCell = withStyles((theme) => ({
-  head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
-  },
-  body: {
-    fontSize: 14,
-  },
-}))(TableCell);
-
-const StyledTableRow = withStyles((theme) => ({
-  root: {
-    "&:nth-of-type(odd)": {
-      backgroundColor: theme.palette.action.hover,
-    },
-  },
-}))(TableRow);
+const columnsName = [
+  "Name",
+  "National ID",
+  "Phone Number",
+  "Work Place",
+  "Username",
+  "Email",
+  "Role",
+];
+const columnsData = [
+  "name",
+  "nationalID",
+  "phoneNumber",
+  "workPlace",
+  "username",
+  "email",
+  "role",
+];
 
 export default function UserList() {
   const [users, setUsers] = useState([]);
@@ -66,31 +60,22 @@ export default function UserList() {
     fetchUser();
   }, []);
 
-  const handleEdit = (
-    id,
-    name,
-    nationalID,
-    phoneNumber,
-    workPlace,
-    username,
-    email,
-    role
-  ) => {
-    setId(id);
-    setName(name);
-    setNationalID(nationalID);
-    setPhoneNumber(phoneNumber);
-    setWorkPlace(workPlace);
-    setUserName(username);
-    setEmail(email);
-    setRole(role);
+  const handleEdit = (item) => {
+    setId(item._id);
+    setName(item.name);
+    setNationalID(item.nationalID);
+    setPhoneNumber(item.phoneNumber);
+    setWorkPlace(item.workPlace);
+    setUserName(item.username);
+    setEmail(item.email);
+    setRole(item.role);
   };
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (item) => {
     setError("");
 
     setLoading(true);
-    const res = await usersApi.deleteUser(id);
+    const res = await usersApi.deleteUser(item._id);
     setLoading(false);
 
     if (res.statusText !== "OK") return setError("Cannot delete user");
@@ -216,75 +201,13 @@ export default function UserList() {
       {loading && <Loader />}
       {error && <Alert variant="danger">{error}</Alert>}
 
-      <TableContainer component={Paper}>
-        <Table aria-label="customized table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>Name</StyledTableCell>
-              <StyledTableCell align="right">National ID</StyledTableCell>
-              <StyledTableCell align="right">Phone Number</StyledTableCell>
-              <StyledTableCell align="right">Work Place</StyledTableCell>
-              <StyledTableCell align="right">Username</StyledTableCell>
-              <StyledTableCell align="right">Email</StyledTableCell>
-              <StyledTableCell align="right">Role</StyledTableCell>
-              <StyledTableCell align="right">View</StyledTableCell>
-              <StyledTableCell align="right">Delete</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {users.map((user) => (
-              <StyledTableRow key={user.username}>
-                <StyledTableCell component="th" scope="row">
-                  {user.name}
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  {user.nationalID}
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  {user.phoneNumber}
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  {user.workPlace}
-                </StyledTableCell>
-                <StyledTableCell align="right">{user.username}</StyledTableCell>
-                <StyledTableCell align="right">{user.email}</StyledTableCell>
-                <StyledTableCell align="right">{user.role}</StyledTableCell>
-                <StyledTableCell align="right">
-                  <Button
-                    size="small"
-                    color="primary"
-                    onClick={() =>
-                      handleEdit(
-                        user._id,
-                        user.name,
-                        user.nationalID,
-                        user.phoneNumber,
-                        user.workPlace,
-                        user.username,
-                        user.email,
-                        user.role
-                      )
-                    }
-                  >
-                    {" "}
-                    View
-                  </Button>
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  <Button
-                    size="small"
-                    color="primary"
-                    onClick={() => handleDelete(user._id)}
-                  >
-                    {" "}
-                    Delete
-                  </Button>
-                </StyledTableCell>
-              </StyledTableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <SearchTable
+        data={users}
+        columnsName={columnsName}
+        columnsData={columnsData}
+        handleDelete={handleDelete}
+        handleView={handleEdit}
+      />
     </div>
   );
 }

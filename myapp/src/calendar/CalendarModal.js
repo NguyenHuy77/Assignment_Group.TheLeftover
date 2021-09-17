@@ -44,8 +44,7 @@ function CalendarModal({ refresh }) {
     if (res.statusText !== "OK") return setError("Cannot delete appointment");
 
     setError("");
-    getEvents();
-    modalOnClose();
+    formSuccess();
   };
 
   const modalOnClose = () => {

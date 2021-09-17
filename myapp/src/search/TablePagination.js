@@ -14,6 +14,8 @@ const TablePagination = ({
     if (i === lastPage) break;
   }
 
+  if (totalPages < 1) return null;
+
   return (
     <Pagination>
       <Pagination.First onClick={() => paginate(1)} />
