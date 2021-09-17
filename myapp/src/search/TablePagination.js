@@ -7,7 +7,8 @@ const TablePagination = ({
   currentPage,
 }) => {
   const lastPage = Math.ceil(totalPages / rowsPerPage);
-  const pagesShow = currentPage + 3;
+  const showNum = 3;
+  const pagesShow = currentPage + showNum;
   const pages = [];
   for (let i = currentPage; i < pagesShow; i++) {
     pages.push(i);
@@ -22,7 +23,7 @@ const TablePagination = ({
       <Pagination.Prev
         onClick={() => currentPage !== 1 && paginate(currentPage - 1)}
       />
-      {currentPage > 1 && <Pagination.Ellipsis />}
+      {currentPage - showNum > 1 && <Pagination.Ellipsis />}
 
       {pages.map((page) => {
         if (currentPage === page)
@@ -38,7 +39,7 @@ const TablePagination = ({
         );
       })}
 
-      {currentPage < lastPage && <Pagination.Ellipsis />}
+      {pagesShow < lastPage && <Pagination.Ellipsis />}
       <Pagination.Next
         onClick={() => currentPage !== lastPage && paginate(currentPage + 1)}
       />

@@ -1,13 +1,12 @@
-import React from "react";
 import { useState, useEffect } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
-import Button from "@material-ui/core/Button";
-import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
-import roomsApi from "../api/rooms";
-import Loader from "../components/Loader";
-import { Alert } from "react-bootstrap";
+import { Form, Button, Alert } from "react-bootstrap";
+
 import SearchTable from "../search/SearchTable";
+import Loader from "../components/Loader";
+import TextField from "../components/TextField";
+
+import roomsApi from "../api/rooms";
+import SelectField from "../components/SelectField";
 
 const columnsName = ["Room Number", "Room Type", "Bed Count", "Available"];
 const columnsData = ["roomNumber", "roomType", "bedCounts", "available"];
@@ -88,57 +87,42 @@ export default function RoomList() {
     <div>
       <div className="col-md-12">
         <div className="card card-container">
-          <Form onSubmit={() => save()}>
+          <Form>
             {id === "" ? <h1>Creat Room</h1> : <h1>Edit Room</h1>}
-            <div>
-              <label htmlFor="roomNumber">Room Number</label>
-              <Input
-                type="text"
-                className="form-control"
-                name="roomNumber"
-                value={roomNumber}
-                onChange={(e) => setRoomNumber(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="roomType">Room Type</label>
-              <select
-                className="form-control"
-                name="roomType"
-                value={roomType}
-                onChange={(e) => setRoomType(e.target.value)}
-              >
-                <option>Fever, Cough, Difficulty breathing,...</option>
-                <option>No Symptoms</option>
-                <option>Good</option>
-              </select>
-            </div>
-            <div>
-              <label htmlFor="bedCounts">Bed Counts</label>
-              <Input
-                type="text"
-                className="form-control"
-                name="bedCounts"
-                value={bedCounts}
-                onChange={(e) => setBedCounts(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="available">Available</label>
-              <Input
-                type="text"
-                className="form-control"
-                name="available"
-                value={available}
-                onChange={(e) => setAvailable(e.target.value)}
-              />
-            </div>
+            <TextField
+              label="Room Number"
+              id="rnum"
+              value={roomNumber}
+              onChange={(e) => setRoomNumber(e.target.value)}
+            />
+            <SelectField
+              label="Room Type"
+              name="roomType"
+              value={roomType}
+              onChange={(e) => setRoomType(e.target.value)}
+            >
+              <option>Fever, Cough, Difficulty breathing,...</option>
+              <option>No Symptoms</option>
+              <option>Good</option>
+            </SelectField>
+            <TextField
+              label="Bed Counts"
+              id="rbed"
+              value={bedCounts}
+              onChange={(e) => setBedCounts(e.target.value)}
+            />
+            <TextField
+              label="Available"
+              id="ravai"
+              value={available}
+              onChange={(e) => setAvailable(e.target.value)}
+            />
             {id === "" ? (
-              <Button size="small" color="primary" onClick={() => save()}>
+              <Button color="primary" onClick={save}>
                 Create
               </Button>
             ) : (
-              <Button size="small" color="primary" onClick={() => save()}>
+              <Button color="primary" onClick={save}>
                 Edit
               </Button>
             )}

@@ -1,15 +1,21 @@
-import React, { Component } from "react";
+import React from "react";
 import { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
-import { Button, Alert } from "react-bootstrap";
-import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
+import { Button, Alert, Form } from "react-bootstrap";
 import patientsApi from "../api/patients";
 import roomsApi from "../api/rooms";
 import Loader from "../components/Loader";
+import TextField from "../components/TextField";
+import SelectField from "../components/SelectField";
 
 const url1 = "/rooms";
+
+const symptomsList = [
+  "Fever, Cough, Difficulty breathing,...",
+  "No Symptoms",
+  "Good",
+];
 
 export function PatientCreate() {
   const [name, setName] = useState();
@@ -17,7 +23,7 @@ export function PatientCreate() {
   const [nationalID, setNationalID] = useState();
   const [address, setAddress] = useState();
   const [day, setDay] = useState();
-  const [symptoms, setSymptoms] = useState();
+  const [symptoms, setSymptoms] = useState(symptomsList[0]);
   const [healthStatus, setHealthStatus] = useState();
   const [procession, setProcession] = useState();
   const [relationNumber, setRelationNumber] = useState();
@@ -98,110 +104,79 @@ export function PatientCreate() {
         <div className="card card-container">
           <h1>Patient Form</h1>
           <Form className="mb-2">
-            <label htmlFor="name">Patient Name</label>
-            <Input
-              type="text"
-              className="form-control"
-              name="name"
-              id="name"
+            <TextField
+              label="Patient Name"
+              id="pname"
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
-            <label htmlFor="age">Age</label>
-            <Input
-              type="text"
-              className="form-control"
-              name="age"
-              id="age"
+            <TextField
+              label="Age"
+              id="page"
               value={age}
               onChange={(e) => setAge(e.target.value)}
             />
-            <label htmlFor="natid">National ID</label>
-            <Input
-              type="text"
-              className="form-control"
-              name="nationalID"
-              if="natid"
+            <TextField
+              label="National ID"
+              id="pname"
               value={nationalID}
               onChange={(e) => setNationalID(e.target.value)}
             />
-            <label htmlFor="address">Address</label>
-            <Input
-              type="text"
-              className="form-control"
-              name="address"
-              id="address"
+            <TextField
+              label="Address"
+              id="paddr"
               value={address}
               onChange={(e) => setAddress(e.target.value)}
             />
-            <label htmlFor="relation">Relation Number</label>
-            <Input
-              type="text"
-              className="form-control"
-              name="relationNumber"
-              id="relation"
+            <TextField
+              label="Relation Number"
+              id="prenum"
               value={relationNumber}
               onChange={(e) => setRelationNumber(e.target.value)}
             />
-            <label htmlFor="day">Day</label>
-            <Input
-              type="text"
-              className="form-control"
-              name="day"
-              id="day"
+            <TextField
+              label="Day"
+              id="pday"
               value={day}
               onChange={(e) => setDay(e.target.value)}
             />
-            <div>
-              <label htmlFor="symptom">Symptom</label>
-              <select
-                className="form-control"
-                name="symptoms"
-                id="symptom"
-                value={symptoms}
-                onChange={(e) => setSymptoms(e.target.value)}
-              >
-                <option>Fever, Cough, Difficulty breathing,...</option>
-                <option>No Symptoms</option>
-                <option>Good</option>
-              </select>
-              <label htmlFor="room">Room</label>
-              <select
-                className="form-control"
-                name="room"
-                id="room"
-                value={room}
-                onChange={(e) => setRoom(e.target.value)}
-              >
-                {rooms.map(
-                  (room) =>
-                    room.available > 0 &&
-                    room.roomType === symptoms && (
-                      <option>{room.roomNumber}</option>
-                    )
-                )}
-              </select>
-            </div>
-            <label htmlFor="status">Health Status</label>
-            <Input
-              type="text"
-              className="form-control"
-              name="healthStatus"
-              id="status"
+            <SelectField
+              label="Symptom"
+              name="symptoms"
+              value={symptoms}
+              onChange={(e) => setSymptoms(e.target.value)}
+            >
+              {symptomsList.map((symptom) => (
+                <option>{symptom}</option>
+              ))}
+            </SelectField>
+            <SelectField
+              label="Room"
+              name="room"
+              value={room}
+              onChange={(e) => setRoom(e.target.value)}
+            >
+              {rooms.map(
+                (room) =>
+                  room.available > 0 &&
+                  room.roomType === symptoms && (
+                    <option>{room.roomNumber}</option>
+                  )
+              )}
+            </SelectField>
+            <TextField
+              label="Health Status"
+              id="phealth"
               value={healthStatus}
               onChange={(e) => setHealthStatus(e.target.value)}
             />
-            <label htmlFor="procession">Procession</label>
-            <Input
-              type="text"
-              className="form-control"
-              name="procession"
-              id="procession"
+            <TextField
+              label="Procession"
+              id="pproc"
               value={procession}
               onChange={(e) => setProcession(e.target.value)}
             />
             <Button
-              size="small"
               color="primary"
               onClick={() => {
                 changeAvailable(room);
@@ -215,7 +190,10 @@ export function PatientCreate() {
           {success && (
             <Alert variant="success">
               Success. Go to{" "}
-              <Link to={"/patient"} className="text-dark">
+              <Link
+                to={"/patient"}
+                className="text-dark text-decoration-underline"
+              >
                 patients
               </Link>
             </Alert>

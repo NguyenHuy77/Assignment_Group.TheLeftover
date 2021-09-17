@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Table, Container } from "react-bootstrap";
+import { Button, Table } from "react-bootstrap";
 
 import TablePagination from "./TablePagination";
 
@@ -11,6 +11,7 @@ function SearchTable({
   columnsData,
   handleDelete,
   handleView,
+  admin = true,
 }) {
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -37,12 +38,17 @@ function SearchTable({
                   {column}
                 </th>
               ))}
-            <th scope="col" className="py-4">
-              View
-            </th>
-            <th scope="col" className="py-4">
-              Delete
-            </th>
+            {admin && (
+              <>
+                {" "}
+                <th scope="col" className="py-4">
+                  View
+                </th>
+                <th scope="col" className="py-4">
+                  Delete
+                </th>
+              </>
+            )}
           </tr>
         </thead>
         <tbody>
@@ -56,30 +62,34 @@ function SearchTable({
                     </td>
                   );
                 })}
-                <td>
-                  {
-                    <Button
-                      className="me-2 text-primary"
-                      size="sm"
-                      variant="muted"
-                      onClick={() => handleView(item)}
-                    >
-                      VIEW
-                    </Button>
-                  }
-                </td>
-                <td>
-                  {
-                    <Button
-                      variant="muted"
-                      size="sm"
-                      className="text-primary"
-                      onClick={() => handleDelete(item)}
-                    >
-                      DELETE
-                    </Button>
-                  }
-                </td>
+                {admin && (
+                  <>
+                    <td>
+                      {
+                        <Button
+                          className="me-2 text-primary"
+                          size="sm"
+                          variant="muted"
+                          onClick={() => handleView(item)}
+                        >
+                          VIEW
+                        </Button>
+                      }
+                    </td>
+                    <td>
+                      {
+                        <Button
+                          variant="muted"
+                          size="sm"
+                          className="text-primary"
+                          onClick={() => handleDelete(item)}
+                        >
+                          DELETE
+                        </Button>
+                      }
+                    </td>
+                  </>
+                )}
               </tr>
             ))}
         </tbody>
