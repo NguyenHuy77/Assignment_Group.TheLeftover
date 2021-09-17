@@ -52,11 +52,13 @@ const roomRoute = require("./room/roomRoute");
 const patientRoute = require("./patient/patientRoute");
 const eventRoute = require("./event/eventRoute");
 const userRoute = require("./user/userRoute");
+const testRoute = require("./test/testRoute")
 
 app.use("/rooms", roomRoute);
 app.use("/patients", patientRoute);
 app.use("/events", eventRoute);
 app.use("/users", userRoute);
+app.use("/tests", testRoute)
 // Have Node serve the files for our built React app
 app.use(express.static(path.resolve(__dirname, "../build")));
 // All other GET requests not handled before will return our React app

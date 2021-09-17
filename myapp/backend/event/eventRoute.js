@@ -24,7 +24,7 @@ router.get("/", async (req, res) => {
   });
 
   // Get event info by ID
-  router.get("/: eventID", async (req, res) => {
+  router.get("/:eventID", async (req, res) => {
     try {
       const  event = await Event.findById(req.params.eventID);
       res.json( event);
