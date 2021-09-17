@@ -9,8 +9,8 @@ import TextField from "../components/TextField";
 
 import testsApi from "../api/tests";
 
-const columnsName = ["Test Time", "Results", "Date Test"];
-const columnsData = ["testTime", "result", "dateTest"];
+const columnsName = ["Test Time", "Results", "Date Test", "Tester"];
+const columnsData = ["testTime", "result", "date", "testUser"];
 
 export function TestTable({ id }) {
   const patientId = id;
@@ -183,7 +183,7 @@ export function TestTable({ id }) {
                 </Col>
               </Row>
               <TextField
-                label="Nurse"
+                label="Tester"
                 id="tnurse"
                 value={nurse}
                 onChange={(e) => setNurse(e.target.value)}
