@@ -31,7 +31,7 @@ function Header({ user, logOut }) {
                     </Link>
                   </li>):(
                     <li className="nav-item">
-                    <Link className="nav-link scrollto" to={`/schedule/${user._id}`}>
+                    <Link className="nav-link scrollto" to={`/schedule/${user.id}`}>
                       Schedule
                     </Link>
                   </li>)}
