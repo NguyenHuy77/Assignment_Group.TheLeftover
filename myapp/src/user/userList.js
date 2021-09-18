@@ -104,8 +104,6 @@ export default function UserList() {
       : usersApi.patchUser(id, data));
     setLoading(false);
 
-    if (res.statusText !== "OK") return setError("Cannot save user");
-
     setError("");
 
     fetchUser();

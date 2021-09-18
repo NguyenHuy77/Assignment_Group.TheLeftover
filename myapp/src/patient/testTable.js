@@ -104,8 +104,6 @@ export function TestTable({ id }) {
       : testsApi.patchTest(idTest, data));
     setLoading(false);
 
-    if (res.statusText !== "OK") return setError("Cannot save test");
-
     setError("");
     fetchTests();
   };

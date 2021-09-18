@@ -76,8 +76,6 @@ export default function RoomList() {
       : roomsApi.patchRoom(id, data));
     setLoading(false);
 
-    if (res.statusText !== "OK") return setError("Cannot save room");
-
     setError("");
 
     fetchRoom();
