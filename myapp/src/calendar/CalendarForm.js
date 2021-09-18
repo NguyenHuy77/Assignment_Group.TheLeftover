@@ -32,8 +32,6 @@ function CalendarForm({ event, onClose }) {
       ? eventsApi.postEvent(data)
       : eventsApi.patchEvent(event._id, data));
 
-    if (res.statusText !== "OK") setError("Could not add event");
-
     setUserSelect("");
     setRoomSelect("");
     setHourSelect(0);
