@@ -134,7 +134,7 @@ export function PatientDetail (){
                         <select
                             className="form-control"
                             name="symptoms"
-                            value={symptoms}
+                            value={(role==="Edit")?(symptoms):(patient.symptoms)}
                             onChange={(e) => setSymptoms(e.target.value)}
                         >
                           <option>Fever, Cough, Difficulty breathing,...</option>
@@ -146,7 +146,7 @@ export function PatientDetail (){
                         <select
                             className="form-control"
                             name="room"
-                            value={room}
+                            value={(role==="Edit")?(room):(patient.roomNumber)}
                             onChange={(e) => setRoom(e.target.value)}
                         >
                         {rooms.map((room)=>(
